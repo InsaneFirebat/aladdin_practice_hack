@@ -1,0 +1,198 @@
+WORK:0002:AL_SFX_sync
+WORK:0003:AL_ControlType
+WORK:0004:AL_AudioType
+WORK:0005:AL_05_SomethingAboutStage
+WORK:0006:AL_CombinedOptions
+WORK:0009:AL_Enable_LevelSelect
+WORK:000A:AL_InitialSPCDataUploaded_maybe
+WORK:000B:AL_NoPause_timer
+WORK:000C:AL_temp_0C
+WORK:000E:AL_temp_0E
+WORK:0016:AL_temp_16
+WORK:0017:AL_temp_17
+WORK:0018:AL_temp_18
+WORK:0019:AL_temp_19
+WORK:001A:AL_temp_1A
+WORK:001B:AL_temp_1B
+WORK:0037:AL_temp_37
+WORK:004D:AL_Sprite_StunTimer
+WORK:0065:AL_temp_65
+WORK:0067:AL_temp_67
+WORK:0069:AL_temp_69
+WORK:004E:AL_StoryTime_Tilemap_index
+WORK:0050:AL_StoryTime_Pointer
+WORK:0052:AL_StoryTime_Timer
+WORK:0071:AL_MultiStack_SP
+WORK:0075:AL_DemoStoryTime_index
+WORK:0076:AL_DemoStoryTime_Timer
+WORK:00A5:AL_PasswordCursor
+WORK:00A6:AL_Password4th
+WORK:00A7:AL_Password3rd
+WORK:00A8:AL_Password2nd
+WORK:00A9:AL_Password1st
+WORK:0170:ram_cm_stack_index
+WORK:0327:AL_MultiStack_index
+WORK:0328:AL_NumberOfIdleLoops:always $08, stored to $0329
+WORK:0329:AL_LoopCounter_0329:loop counter
+WORK:032A:AL_NMI_flag:cleared in the idle loop @ $81BC6D
+WORK:032B:AL_RNG_1
+WORK:032C:AL_RNG_2
+WORK:032D:AL_render_counter
+WORK:032E:AL_frame_counter
+WORK:032F:AL_032F_NAME:inc'd from 0->23h then reset @ @8394A4
+WORK:0330:AL_0330_NAME:dec'd from 23h->0 then set to 23h @ @8394A4
+WORK:0331:AL_0331_SomethingAboutInputs:0x01, set to 1 when loading demo stage/level/checkpoint data
+WORK:033B:AL_Demo_Data_index:0x01 index to demo input data (inputs/timer)
+WORK:033C:AL_Demo_Inputs:0x01 current demo inputs
+WORK:033E:AL_Demo_InputTimer:0x01, set to 1 when loading demo stage/level/checkpoint data
+WORK:033F:AL_Demo_index:0x01, used to load demo stage/level/checkpoint data, inc'd afterwards
+WORK:0340:AL_0340_UNUSED:0x01, unused?
+WORK:0341:AL_Demo_ExitTimer:0x02, set to $04EC at demo loading
+WORK:0343:AL_Demo_Timer:0x02, Time until demo starts, demo exit timer if secret credits
+WORK:0347:AL_Invul_State:$02 during knockback, then $04 during i-frames
+WORK:0348:AL_Jump_Input
+WORK:034A:AL_Dash_Input
+WORK:034C:AL_Throw_Input
+WORK:034E:AL_Hover_Input
+WORK:0359:AL_Name_0359:0x01 ; zero'd @ level loading
+WORK:035A:AL_Chests_Opened
+WORK:035B:AL_credits
+WORK:035C:AL_Stage
+WORK:035D:AL_Level
+WORK:035E:AL_Level_index
+WORK:035F:AL_EquipSetup_flag:0x01, zeroed at HandleEquipment unless demo
+WORK:0360:AL_checkpoint
+WORK:0362:AL_credit_lives:stored to lives after game over
+WORK:0363:AL_lives_HUD
+WORK:0364:AL_lives
+WORK:0365:AL_hearts_max
+WORK:0366:AL_hearts_HUD
+WORK:0367:AL_hearts
+WORK:0368:AL_apples_HUD
+WORK:0369:AL_apples
+WORK:036A:AL_gems_HUD
+WORK:036B:AL_gems
+WORK:036C:AL_scarab
+WORK:036D:AL_cape_HUD
+WORK:036E:AL_cape
+WORK:036F:AL_GameOver_flag:set to 1 after equipment setup, or if game over credit used, 0 if no selected at game over
+WORK:0371:AL_Music_flag_0371
+WORK:0372:AL_MusicHandler_flag
+WORK:0375:AL_rubies_area
+WORK:0376:AL_rubies_total
+WORK:0377:AL_CONTROLLER_PRI
+WORK:0379:AL_CONTROLLER_SEC
+WORK:037B:AL_CONTROLLER_PRI_NEW
+WORK:037D:AL_CONTROLLER_SEC_NEW
+WORK:037F:AL_Current_Inputs
+WORK:0381:AL_New_Inputs
+WORK:0383:AL_InputHeld_Jump
+WORK:0384:AL_InputHeld_Dash
+WORK:0385:AL_InputHeld_Throw
+WORK:0386:AL_InputHeld_Hover
+WORK:0387:AL_InputNew_Jump
+WORK:0388:AL_InputNew_Dash
+WORK:0389:AL_InputNew_Throw
+WORK:038A:AL_InputNew_Hover
+WORK:038B:AL_212E_MainScreenWindowMask
+WORK:038C:AL_212F_SubScreenWindowMask
+WORK:038D:AL_Counter_03BD:from Zarby
+WORK:0395:AL_211F_Mode7CenterX
+WORK:0397:AL_2120_Mode7CenterY
+WORK:0399:AL_212C_MainScreenDesignation
+WORK:039A:AL_212D_SubScreenDesignation
+WORK:039D:AL_2105_BGMode
+WORK:03A0:AL_2107_BG1TilemapAddrSize
+WORK:03A1:AL_2108_BG2TilemapAddrSize
+WORK:03A2:AL_2109_BG3TilemapAddrSize
+WORK:03A3:AL_UNUSED
+WORK:03A4:AL_210B_BG12CharacterAddr
+WORK:03A5:AL_210C_BG34CharacterAddr
+WORK:03A6:AL_2126_Window1Left
+WORK:03A7:AL_2127_Window1Right
+WORK:03A8:AL_2128_Window2Left
+WORK:03A9:AL_2129_Window1Left
+WORK:03AA:AL_2123_Window12Select
+WORK:03AB:AL_2124_Window34Select
+WORK:03AC:AL_2125_WindowColorObj
+WORK:03AD:AL_212A_BGWindowMask
+WORK:03AE:AL_212B_ColorOBJWindowMask
+WORK:03AF:AL_2130_ColorAddSelect
+WORK:03B0:AL_2131_ColorMath
+WORK:03B1:AL_2106_Mosaic
+WORK:03B2:AL_2132_ColorIntensityRed
+WORK:03B3:AL_2132_ColorIntensityGreen
+WORK:03B4:AL_2132_ColorIntensityBlue
+WORK:03B6:AL_420C_HDMAEnable
+WORK:03B7:AL_REG_4200_NMITIMEN
+WORK:03B8:AL_REG_2100_INIDISP:see $819EAE (fade in)
+WORK:03B9:AL_REG_xxxx_brightness
+WORK:03BB:AL_SFX_RingBuffer_index
+WORK:03BC:AL_SFX_RingBuffer_UNUSED
+WORK:03BD:AL_SFX_RingBuffer_maxindex
+WORK:03BE:AL_SFX_RingBuffer_index
+WORK:03BF:AL_SFX_RingBuffer; $10 bytes
+WORK:03DF:AL_HUD_2116_VMADDL:see $808469
+WORK:03E1:AL_HUD_4305_DAS0L:see $808469
+WORK:03F5:AL_iframe_timer
+WORK:03F8:AL_Last_APU_Command
+WORK:03F9:AL_03F9_PauseSetsTo_01
+WORK:0821:AL_LevelCompletePosition_flag:see $81872E and $818716
+WORK:0822:AL_LevelCompletePosition_index:see $81872E and $818716
+WORK:0835:AL_HUD_tilemap_flag:see $808469
+WORK:0844:AL_0844_flag:0x01, see $8198EF
+WORK:0849:AL_TitleMenu_Cursor0
+WORK:084A:AL_TitleMenu_Cursor1
+WORK:0858:AL_something1_DMA_flag:see $80841E
+WORK:0859:AL_something2_DMA_flag:see $80841E
+WORK:085A:AL_REG_2116_VRAMaddr
+WORK:085C:AL_REG_4302_srcAddr
+WORK:085E:AL_REG_4304_srcBank
+WORK:085F:AL_REG_4305_DMAsize
+WORK:0861:AL_REG_2115_VRAMcontrol
+WORK:0863:AL_REG_2116_VRAMaddr
+WORK:0865:AL_REG_4302_srcAddr
+WORK:0867:AL_REG_4304_srcBank
+WORK:0868:AL_REG_4305_DMAsize
+WORK:086A:AL_REG_2115_VRAMcontrol
+WORK:08DB:AL_NAME_08DB:the start of some chunk of RAM (DP), set to $8C in EnvironmentDamageAladdin
+WORK:08DE:AL_Pointer_08DE:a pointer involved in level loading
+WORK:08E2:AL_name_08E2:$06 if credits remaining, $0F if zero credits
+WORK:08E3:AL_DamageTaken_08E3:ORA #$80 if damage taken
+WORK:08E6:AL_X_Subpos:0x01
+WORK:08E7:AL_X_Position:0x02
+WORK:08E8:AL_X_Position_hi
+WORK:08E9:AL_Y_Subpos:0x01
+WORK:08EA:AL_Y_Position:0x02
+WORK:08EB:AL_Y_Position_hi
+WORK:08EF:AL_direction_travelling
+WORK:08F0:AL_direction_facing
+WORK:08F4:AL_X_Speed
+WORK:08F9:AL_Y_Speed
+WORK:0925:AL_Apple_Cooldown_Timer
+WORK:0936:AL_Abu_X_Position
+WORK:093A:AL_Abu_Y_Position
+WORK:0B50:AL_SpriteRAM_Start
+WORK:0B6C:AL_Jafar_HP
+WORK:0BBC:AL_Farouk_HP
+WORK:0C0C:AL_Snake_HP
+WORK:0CF8:AL_Hearts_0CF8
+WORK:141B:AL_DamageTaken_141B
+WORK:141C:AL_Movement_InAir_flag
+WORK:1420:AL_Pose_State
+WORK:1423:AL_StageCompleted:see $81879D
+WORK:1424:AL_IncdWhenKillAl:see $83805B
+WORK:143A:AL_X_Subposition_143A
+WORK:143C:AL_X_Position_hi_143C
+WORK:143D:AL_Y_Subposition_143D
+WORK:143F:AL_Y_Position_hi_143F
+WORK:1471:AL_Abu_X_Position_1471
+WORK:1473:AL_Abu_Y_Position_1473
+WORK:1475:AL_PiracyTrap_1475
+WORK:1484:AL_X_pos_extra
+WORK:1486:AL_Y_pos_extra
+WORK:1773:AL_Xpos_Progress
+WORK:1B14:AL_Options_Unknown_1B14
+WORK:1B15:AL_Options_BGM
+WORK:1B16:AL_NAME_1B16
+WORK:1B17:AL_Options_ControlType

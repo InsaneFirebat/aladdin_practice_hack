@@ -1,0 +1,222 @@
+https://datacrystal.romhacking.net/wiki/Disney%27s_Aladdin:RAM_map
+
+{{rammap|game=Disney's Aladdin}}
+
+REG = Register mirror
+
+ Address  Size   Description
+ -------  -----  ------------
+  7E0002  $0001  SFX sync
+  7E0003  $0001  Control Type, possibly other uses
+  7E0004  $0001  Sound setting, $80 = Stereo, $00 = Monaural
+  7E0005  $0001  Unknown, ORA'd with options before stored in $06
+  7E0006  $0001  Combined options
+
+  7E0009  $0001  DEBUG MODE, set non-zero to enable
+  7E000B  $0001  No-pause timer, set to 16 frames when unpausing
+  7E000C  $0004  Variable use, often indirect address
+
+  7E004D  $0001  Current Sprite Stun Timer
+  7E004E  $0001  Index for story time tilemap
+  7E0050  $0002  Pointer for story time
+  7E0052  $0001  Story time timer
+
+  7E0065  $0003  Variable use, often indirect address
+
+  7E00A5  $0001  Password menu cursor
+  7E00A6  $0001  Password menu 4th slot
+  7E00A7  $0001  Password menu 3rd slot
+  7E00A8  $0001  Password menu 2nd slot
+  7E00A9  $0001  Password menu 1st slot
+
+  7E0327  $0001  Index to DP RAM
+  7E0328  $0001  Stored to $0329, always $08
+  7E0329  $0001  Loop counter
+  7E032A  $0001  NMI flag, cleared in the idle loop @ $81BC6D
+  7E032B  $0001  RNG seed 1
+  7E032C  $0001  RNG seed 2
+  7E032D  $0001  Render counter, does not include lag frames
+  7E032E  $0001  Frame counter, every frame/NMI
+  7E032F  $0001  Inc'd from $00 to $23, then reset @ $8394A4
+  7E0330  $0001  Dec'd from $23 to $00, then reset @ $8394A4
+  7E0331  $0001  Related to inputs, $02 = demo playback
+
+  7E033B  $0002  Index to demo input data
+  7E033D  $0001  Demo input, $80 = Jump, $40 = Dash, $02 = Left, $01 = Right
+  7E033E  $0001  Demo input timer
+  7E033F  $0001  Index to demo, $00 and $01 are actual demos, other scripted inputs beyond that
+  7E0340  $0001  UNUSED?
+  7E0341  $0002  Demo exit timer
+  7E0343  $0002  Time until demo starts, demo exit timer if secret credits
+
+  7E0347  $0001  Invulnerability state, $80 at level clear, $7F at secret credits, $04 = iframes, $02 = knockback
+  7E0348  $0002  Jump input mask
+  7E034A  $0002  Dash input mask
+  7E034C  $0002  Throw input mask
+  7E034E  $0002  Hover input mask
+
+  7E0359  $0001  Cleared at title menu and every level load
+  7E035A  $0001  Chests opened
+  7E035B  $0001  Credits (continues), stored as decimal
+  7E035C  $0001  Current stage
+  7E035D  $0001  Current level
+  7E035E  $0002  Current level index
+  7E035F  $0001  Equipment setup flag, $01 if respawning, $02 if demo
+  7E0360  $0001  Level checkpoint flag, used for first Jafar fight
+  7E0361  $0001  UNUSED?
+  7E0362  $0001  Aladdin's credit lives, applied after game over
+  7E0363  $0001  Aladdin's lives on HUD, stored as decimal
+  7E0364  $0001  Aladdin's lives, stored as decimal
+  7E0365  $0001  Aladdin's max hearts
+  7E0366  $0001  Aladdin's hearts on HUD
+  7E0367  $0001  Aladdin's hearts
+  7E0368  $0001  Aladdin's apples on HUD, stored as decimal
+  7E0369  $0001  Aladdin's apples, stored as decimal
+  7E036A  $0001  Aladdin's gems on HUD, stored as decimal
+  7E036B  $0001  Aladdin's gems, stored as decimal
+  7E036C  $0001  Scarab collected this level
+  7E036D  $0001  Aladdin's cape on HUD
+  7E036E  $0001  Aladdin's cape
+  7E036F  $0001  Equipment setup flag, $01 if respawning, $02 if demo
+
+  7E0371  $0001  Flag related to music loading
+  7E0372  $0001  Flag related to music loading
+  7E0373  $0001  Unknown, cleared with Rubies below
+  7E0374  $0001  Unknown, cleared with Rubies below
+  7E0375  $0001  Rubies collected this stage
+  7E0376  $0001  Total rubies collected, calculated at stage clear
+  7E0377  $0002  Controller 1 inputs
+  7E0379  $0002  Controller 2 inputs
+  7E037B  $0002  Controller 1 new inputs
+  7E037D  $0002  Controller 2 new inputs
+  7E037F  $0002  Controller 1 inputs again
+  730381  $0002  Controller 1 new inputs again
+  7E0383  $0001  Jump input held
+  7E0384  $0001  Dash input held
+  7E0385  $0001  Throw input held
+  7E0386  $0001  Hover input held
+  7E0387  $0001  New jump input
+  7E0388  $0001  New dash input
+  7E0389  $0001  New throw input
+  7E038A  $0001  New hover input
+  7E038B  $0001  REG $212E Main Screen Window Mask
+  7E038C  $0001  REG $212F Subscreen Window Mask
+
+  7E0395  $0002  REG $211F Mode 7 Center X
+  7E0397  $0002  REG $2120 Mode 7 Center Y
+
+  7E0399  $0001  REG $212C Main Screen Designation
+  7E039A  $0001  REG $212D Subscreen Designation
+
+  7E039D  $0001  REG $2105 Background Mode
+
+  7E03A0  $0001  REG $2107 BG1 Tilemap Address Size
+  7E03A1  $0001  REG $2108 BG2 Tilemap Address Size
+  7E03A2  $0001  REG $2109 BG3 Tilemap Address Size
+  7E03A3  $0001  UNUSED?
+  7E03A4  $0001  REG $210B BG1/2 Character Address
+  7E03A5  $0001  REG $210C BG3/4 Character Address
+  7E03A6  $0001  REG $2126 Window 1 Left
+  7E03A7  $0001  REG $2127 Window 1 Right
+  7E03A8  $0001  REG $2128 Window 2 Left
+  7E03A9  $0001  REG $2129 Window 1 Left
+  7E03AA  $0001  REG $2123 Window 1/2 Select
+  7E03AB  $0001  REG $2124 Window 3/4 Select
+  7E03AC  $0001  REG $2125 Window Color Obj
+  7E03AD  $0001  REG $212A BG Window Mask
+  7E03AE  $0001  REG $212B Color OBJ Window Mask
+  7E03AF  $0001  REG $2130 Color Addition Select
+  7E03B0  $0001  REG $2131 Color Math
+  7E03B1  $0001  REG $2106 Mosaic
+  7E03B2  $0001  REG $2132 Color Intensity - Red
+  7E03B3  $0001  REG $2132 Color Intensity - Green
+  7E03B4  $0001  REG $2132 Color Intensity - Blue
+
+  7E03B6  $0001  REG $420C HDMA Enable
+  7E03B7  $0001  REG $4200 NMITIMEN
+  7E03B8  $0001  REG $2100 INIDISP
+  7E03B9  $0001  APU Command sent to $2140
+
+  7E03BB  $0001  SFX ring buffer index
+  7E03BC  $0001  UNUSED?
+  7E03BD  $0002  SFX ring buffer max index?
+  7E03BF  $0020  SFX ring buffer
+
+  7E03DF  $0002  REG $2116 VMADDL
+  7E03E1  $0001  REG $4305 DAS0L
+
+  7E03F5  $0001  I-Frame timer
+
+  7E03F8  $0001  Last APU command
+  7E03F9  $0001  Set to 1 while paused
+
+  7E0821  $0001  Position based level complete flag
+  7E0822  $0002  Index to level complete positions
+
+  7E0835  $0001  BG3 tilemap flag, 0 = skip BG3 tilemap update
+
+  7E0849  $0002  Title menu cursor
+
+  7E0858  $0001  DMA transfer flag?
+  7E0859  $0001  DMA transfer flag?
+  7E085A  $0002  REG $2116 VRAM address
+  7E085C  $0002  REG $4302 source address
+  7E085E  $0001  REG $4304 source bank
+  7E085F  $0002  REG $4305 DMA size
+  7E0861  $0002  REG $2115 VRAM control
+  7E0863  $0002  REG $2116 VRAM address
+  7E0865  $0002  REG $4302 source address
+  7E0867  $0001  REG $4304 source bank
+  7E0868  $0002  REG $4305 DMA size
+  7E086A  $0002  REG $2115 VRAM control
+
+  7E08E2  $0001  $08 if credits remaining, $0F if no credits (game over)
+  7E08E3  $0001  ORA #$80 if damage taken
+
+  7E08E6  $0001  Aladdin X subposition
+  7E08E7  $0002  Aladdin X position
+  7E08E9  $0001  Aladdin Y subposition
+  7E08EA  $0002  Aladdin Y position
+
+  7E03EF  $0001  Aladdin travelling direction
+  7E03F0  $0001  Aladdin facing direction
+
+  7E08F4  $0002  Aladdin X speed
+
+  7E08F9  $0002  Aladdin Y speed
+
+  7E0925  $0001  Apple cooldown timer
+
+  7E0936  $0002  Abu X position
+
+  7E093A  $0002  Abu Y position
+
+  7E0B50   ????  Sprite RAM starts here
+    +$16  $0003  Sprite X
+    +$19  $0003  Sprite Y
+    +$37  $????  Palette
+    +$4D  $????  Timer, stun too
+
+  7E0B6C  $0001  Jafar hits remaining
+  7E0BBC  $0001  Farouk hits remaining
+  7E0C0C  $0001  Snake hits remaining
+
+  7E141B  $0001  Damage taken flag
+  7E141C  $0001  Moving in air flag
+
+  7E1420  $0001  Aladdin pose
+
+  7E1423  $0001  Level completed flag
+  7E1424  $0001  Inc'd when Al dies
+
+  7E1471  $0002  Another Abu X position
+  7E1473  $0002  Another Abu Y position
+
+  7E1484  $0002  Another Aladdin X position
+  7E1486  $0002  Another Aladdin Y position
+
+  7E1773  $0002  X position progress toward level complete
+
+  7E1B14  $0001  Options menu cursor position, has other uses outside of menu
+  7E1B15  $0001  Options menu BGM, has other uses outside of menu
+  7E1B17  $0001  Options menu Control Type, has other uses outside of menu
