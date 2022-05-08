@@ -249,6 +249,7 @@ levelselect_load_target:
     LDA !cm_levelselect_stage : STA !AL_Stage
     LDA !cm_levelselect_level_index : STA !AL_Level
     LDA !cm_levelselect_checkpoint : STA !AL_checkpoint
+    INC !AL_StageCompleted
     JMP levelselect_kill_Al_routine
 
 levelselect_kill_Al:
