@@ -24,6 +24,13 @@ org $80832C
 org $81FA31
     JSL UpdateTimers
 
+; Hijack checkpoint set to update the HUD
+org $81870E
+    JML CheckPointReached
+    NOP
+CheckPointReached_return:
+
+
 
 ; Hijack end of fade-in loop to reset timers
 org $819EB5
@@ -168,6 +175,18 @@ UpdateTimersLocal:
 
     PLB
     RTL
+}
+
+
+; Update timers when setting 4-3 checkpoint
+CheckPointReached:
+{
+    LDX #$01 : STX !AL_checkpoint
+    LDX !AL_Level_index : CPX #$10 : BEQ + ; don't update on 6-3
+    %ai16()
+    JSL UpdateTimersLocal
++   %ai8()
+    JML CheckPointReached_return
 }
 
 

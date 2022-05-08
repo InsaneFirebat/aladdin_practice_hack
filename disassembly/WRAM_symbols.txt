@@ -131,8 +131,8 @@ WORK:03BB:AL_SFX_RingBuffer_index
 WORK:03BC:AL_SFX_RingBuffer_UNUSED
 WORK:03BD:AL_SFX_RingBuffer_maxindex
 WORK:03BE:AL_SFX_RingBuffer_index
-WORK:03BF:AL_SFX_RingBuffer; $10 bytes
-WORK:03C0:AL_Block_index; from lua
+WORK:03BF:AL_SFX_RingBuffer:$10 bytes
+WORK:03C0:AL_Block_index:from lua
 WORK:03DF:AL_HUD_2116_VMADDL:see $808469
 WORK:03E1:AL_HUD_4305_DAS0L:see $808469
 WORK:03F5:AL_iframe_timer
