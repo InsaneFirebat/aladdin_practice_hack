@@ -31,6 +31,10 @@ org $81870E
 CheckPointReached_return:
 
 
+; Hijack carpet ride progress check
+org $818787
+    JML CheckCarpetRideComplete
+
 
 ; Hijack end of fade-in loop to reset timers
 org $819EB5
@@ -187,6 +191,18 @@ CheckPointReached:
     JSL UpdateTimersLocal
 +   %ai8()
     JML CheckPointReached_return
+}
+
+
+; Update timers when completing a carpet ride level
+CheckCarpetRideComplete:
+{
+    BCC .complete
+    JML $818778
+
+  .complete
+    JSL UpdateTimersLocal
+    JML $81879D ; JSR81879D_Inc2NextLevel
 }
 
 
