@@ -410,7 +410,7 @@ levelselectlist_Genie_03:
     JML levelselect_list_load
 
 levelselectlist_Genie_03_cp:
-    %cm_jsl("Genie - 3", #.routine, #$0303)
+    %cm_jsl("Genie - 3 Checkpoint", #.routine, #$0303)
   .routine
     LDA #$0001 : STA !cm_levelselect_checkpoint
     JML levelselect_list_load
@@ -680,8 +680,10 @@ GameOptiosnMenu:
 options_control_type:
     %cm_numfield("Control-Type", !sram_options_control_type, 1, 4, 1, 1, .routine)
   .routine
-    LDA !sram_options_control_type : DEC : STA !AL_ControlType
-    ASL : TAX
+    LDA !sram_options_control_type : BEQ +
+    DEC
++   STA !AL_ControlType
+    ASL #3 : TAX
     LDA !AL_ControlType : ORA !AL_AudioType : CLC : ADC !AL_05_SomethingAboutStage : STA !AL_CombinedOptions
     LDA.l ControllerLayoutTable,X : STA !AL_Dash_Input
     LDA.l ControllerLayoutTable+2,X : STA !AL_Jump_Input

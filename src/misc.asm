@@ -37,7 +37,18 @@ incbin ../resources/Graphics_HUD_Compressed.bin
 
 ; Hijack starting equipment to set our own
 org $81814C
-    JSL StartingEquipment : NOP #2
+    JSL StartingEquipment
+    NOP #2
+
+
+; Skip setting controls if customized
+org $8181CB
+    JML ControlTypeHook
+    NOP #2
+ControlTypeHook_return:
+
+org $8181EB
+ControlTypeHook_skipControls:
 
 
 ; Infinite Hearts
@@ -124,6 +135,17 @@ StartingEquipment:
 
     STZ !AL_scarab : STZ !AL_Chests_Opened ; overwritten code
     RTL
+}
+
+
+ControlTypeHook:
+{
+    LDA !sram_options_control_type : BEQ .custom
+    LDA !AL_ControlType : AND #$00FF
+    JML ControlTypeHook_return
+
+  .custom
+    JML ControlTypeHook_skipControls
 }
 
 

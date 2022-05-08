@@ -178,8 +178,8 @@ REG = Register mirror
   7E08E9  $0001  Aladdin Y subposition
   7E08EA  $0002  Aladdin Y position
 
-  7E03EF  $0001  Aladdin travelling direction
-  7E03F0  $0001  Aladdin facing direction
+  7E08EF  $0001  Aladdin travelling direction
+  7E08F0  $0001  Aladdin facing direction
 
   7E08F4  $0002  Aladdin X speed
 
@@ -216,6 +216,10 @@ REG = Register mirror
   7E1486  $0002  Another Aladdin Y position
 
   7E1773  $0002  X position progress toward level complete
+
+  7E19ED  $0002  Screen X position
+
+  7E19F1  $0002  Screen Y position
 
   7E1B14  $0001  Options menu cursor position, has other uses outside of menu
   7E1B15  $0001  Options menu BGM, has other uses outside of menu

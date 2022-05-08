@@ -132,6 +132,7 @@ WORK:03BC:AL_SFX_RingBuffer_UNUSED
 WORK:03BD:AL_SFX_RingBuffer_maxindex
 WORK:03BE:AL_SFX_RingBuffer_index
 WORK:03BF:AL_SFX_RingBuffer; $10 bytes
+WORK:03C0:AL_Block_index; from lua
 WORK:03DF:AL_HUD_2116_VMADDL:see $808469
 WORK:03E1:AL_HUD_4305_DAS0L:see $808469
 WORK:03F5:AL_iframe_timer
@@ -192,6 +193,8 @@ WORK:1475:AL_PiracyTrap_1475
 WORK:1484:AL_X_pos_extra
 WORK:1486:AL_Y_pos_extra
 WORK:1773:AL_Xpos_Progress
+WORK:19ED:AL_Screen_X
+WORK:19F1:AL_Screen_Y
 WORK:1B14:AL_Options_Unknown_1B14
 WORK:1B15:AL_Options_BGM
 WORK:1B16:AL_NAME_1B16

@@ -11,7 +11,7 @@ endif
 !VERSION_MINOR = 0
 !VERSION_BUILD = 0
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 0
+!VERSION_REV_2 = 1
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -379,6 +379,7 @@ endif
 !AL_SFX_RingBuffer_UNUSED = $03BC
 !AL_SFX_RingBuffer_maxindex = $03BD ; 0x02
 !AL_SFX_RingBuffer = $03BF ; 0x20
+;!AL_Block_index = $03C0 ; from lua
 
 !AL_HUD_2116_VMADDL = $03DF ; see $808469
 !AL_HUD_4305_DAS0L = $03E1 ; see $808469
@@ -469,6 +470,9 @@ endif
 !AL_Y_Pos_extra = $1486 ; ?? both were listed as $1484
 
 !AL_Xpos_Progress = $1773 ; 0x02
+
+!AL_Screen_X = $19ED
+!AL_Screen_Y = $19F1
 
 ; Options RAM has other uses
 !AL_Options_Cursor = $1B14
