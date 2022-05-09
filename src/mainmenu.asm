@@ -249,7 +249,7 @@ levelselect_load_target:
     LDA !cm_levelselect_stage : STA !AL_Stage
     LDA !cm_levelselect_level_index : STA !AL_Level
     LDA !cm_levelselect_checkpoint : STA !AL_checkpoint
-    INC !AL_StageCompleted
+    INC !AL_LevelCompleted
     JMP levelselect_kill_Al_routine
 
 levelselect_kill_Al:
@@ -258,7 +258,7 @@ levelselect_kill_Al:
     %ai8()
     LDA !AL_Level_index : CMP #$13 : BPL +
     INC !AL_lives
-    LDA #$01 : STA !ram_cm_leave
+    LDA #$01 : STA !ram_TimeAttack_DoNotRecord : STA !ram_cm_leave
     JSL $838052 ; KillAladdin_long
     RTL
 
@@ -300,7 +300,7 @@ Inc2NextLevel:
     %ai8()
     LDX #$00 : STZ !AL_checkpoint
     STZ !AL_direction_facing : STZ !AL_direction_travelling
-    INC !AL_StageCompleted : INC $1454
+    INC !AL_LevelCompleted : INC $1454
 
     ; ensure we're not dead
     LDA #$80 : STA !AL_Invul_State
@@ -309,7 +309,7 @@ Inc2NextLevel:
 
   .done
     PLP
-    LDA #$0001 : STA !ram_cm_leave
+    LDA #$0001 : STA !ram_TimeAttack_DoNotRecord : STA !ram_cm_leave
     RTL
 
   .fail
@@ -634,6 +634,7 @@ endif
     dw #settings_stage_clear_skip
     dw #settings_story_time_skip
     dw #$FFFF
+    dw #settings_reset_all_times
     dw #settings_customize_sfx
     dw #$0000
     %cm_header("SETTINGS MENU")
@@ -661,6 +662,14 @@ settings_stage_clear_skip:
 
 settings_story_time_skip:
     %cm_toggle("Skip Story Time", !sram_story_time_skip, #$0001, #0)
+
+settings_reset_all_times:
+    %cm_jsl("Reset ALL Fastest Times", .routine, #$7FFF)
+  .routine
+    TYA : LDX #$001E
+-   STA !sram_TimeAttack,X : DEX #2 : BPL -
+    %sfxfail()
+    RTL
 
 settings_customize_sfx:
     %cm_submenu("Customize Menu SFX", CustomizeSFXMenu)

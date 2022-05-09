@@ -24,6 +24,7 @@ org $80832C
 org $81FA31
     JSL UpdateTimers
 
+
 ; Hijack checkpoint set to update the HUD
 org $81870E
     JML CheckPointReached
@@ -39,6 +40,20 @@ org $818787
 ; Hijack end of fade-in loop to reset timers
 org $819EB5
     JSL ResetTimers
+
+
+; Set level completed flag instead of disabling pause for TimeAttack
+org $80A201
+    INC !AL_LevelCompleted
+
+org $80A260
+    INC !AL_LevelCompleted
+
+org $80A2DA
+    INC !AL_LevelCompleted
+
+org $848AF6
+    INC !AL_LevelCompleted
 
 
 ; ------------
@@ -98,6 +113,8 @@ UpdateTimers:
 
     ; Draw previous room seconds
     LDA !ram_room_seconds : LDX #$011C : JSR Draw3
+
+    JSR TimeAttack
 
     ; Divide timer by 60
     STZ $4205
@@ -214,6 +231,7 @@ ResetTimers:
     STA !ram_HUDTimer : STA !ram_lag_counter
     STA !ram_HUD_1 : STA !ram_HUD_2
     STA !ram_HUD_3 : STA !ram_HUD_4
+    STA !ram_TimeAttack_DoNotRecord
     INC !AL_HUD_tilemap_flag
 
     PLP
@@ -278,6 +296,57 @@ HUD_Tilemap_Transfers:
     PLP
     LDA #$00 : STA !ram_update_HUD
     JML HUD_Tilemap_Transfers_return
+}
+
+
+TimeAttack:
+{
+    LDA !AL_Level_index : AND #$00FF : CMP #$0013 : BPL +
+    ASL : TAX
+    LDA !ram_TimeAttack_DoNotRecord : BNE +
+    LDA !AL_LevelCompleted : AND #$00FF : BEQ +
+    LDA !sram_TimeAttack,X : CMP !ram_HUDTimer : BPL .newPB
++   RTS
+
+  .newPB
+    PLA ; pull return address, finish UpdateTimers from here
+    LDA !ram_HUDTimer : STA !sram_TimeAttack,X
+
+    ; Divide timer by 60
+    STZ $4205 : STA $4204
+    STA !ram_HUDTimer_last
+    %a8()
+    LDA #$3C : STA $4206
+    LDA !ram_update_HUD : ORA #$01 : STA !ram_update_HUD
+;    PHA : PLA : PHA : PLA ; wait for CPU math, replaced with above
+    %a16()
+    LDA $4214 : STA !ram_room_seconds
+    LDA $4216 : STA !ram_room_frames
+
+    ; Draw frames
+    ASL : TAX
+    LDA HexToNumberGFX1,X : ORA #$0C00 : STA !ram_tilemap_buffer+$13A
+    LDA HexToNumberGFX2,X : ORA #$0C00 : STA !ram_tilemap_buffer+$13C
+
+    ; Draw seconds
+    LDA !ram_room_seconds : LDX #$0132 : JSR Draw3
+    LDA !ram_tilemap_buffer+$132 : ORA #$0C00 : STA !ram_tilemap_buffer+$132
+    LDA !ram_tilemap_buffer+$134 : ORA #$0C00 : STA !ram_tilemap_buffer+$134
+    LDA !ram_tilemap_buffer+$136 : ORA #$0C00 : STA !ram_tilemap_buffer+$136
+
+    ; Draw lag frames
+    LDA !ram_lag_counter : LDX #$012A : JSR Draw3
+
+    ; Draw decimal seperators
+    LDA !TILE_DECIMAL
+    STA !ram_tilemap_buffer+$122 : ORA #$0C00 : STA !ram_tilemap_buffer+$138
+
+    ; Clear last APU command, but don't touch the value beside it
+    LDA !AL_Last_APU_Command : AND #$FF00 : STA !AL_Last_APU_Command
+
+    PLB
+    LDA #$0000 : TCD ; overwritten code
+    RTL
 }
 
 

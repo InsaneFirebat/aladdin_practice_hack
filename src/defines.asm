@@ -5,7 +5,7 @@ if !DEV_BUILD
 else
 !FEATURE_SAVESTATES ?= 0
 endif
-!SRAM_VERSION = #$0001 ; inc this to force new SRAM initialization
+!SRAM_VERSION = #$0002 ; inc this to force new SRAM initialization
 
 !VERSION_MAJOR = 1
 !VERSION_MINOR = 0
@@ -73,6 +73,7 @@ endif
 !ram_lag_counter = !WRAM_START+$06
 !ram_room_seconds = !WRAM_START+$08
 !ram_room_frames = !WRAM_START+$0A
+!ram_TimeAttack_DoNotRecord = !WRAM_START+$0C
 
 !ram_cm_menu_stack = !WRAM_START+$10 ; 0x10
 !ram_cm_cursor_stack = !WRAM_START+$20 ; 0x10
@@ -189,6 +190,9 @@ endif
 !sram_customsfx_confirm = !SRAM_START+$96
 !sram_customsfx_goback = !SRAM_START+$98
 !sram_customsfx_fail = !SRAM_START+$9A
+;!sram_customsfx_reset = !SRAM_START+$9C
+
+!sram_TimeAttack = !SRAM_START+$B0 ; 0x20
 
 !sram_ctrl_menu = !SRAM_START+$D0
 !sram_ctrl_save_state = !SRAM_START+$D2
@@ -384,6 +388,8 @@ endif
 !AL_HUD_2116_VMADDL = $03DF ; see $808469
 !AL_HUD_4305_DAS0L = $03E1 ; see $808469
 
+!AL_DisablePause = $03FA ; 0x01
+
 !AL_iframe_timer = $03F5 ; timer
 
 !AL_Last_APU_Command = $03F8 ; SFX sound?
@@ -452,7 +458,7 @@ endif
 
 !AL_Pose_State = $1420 ; ? -Zarby89  ~  pose -IFB
 
-!AL_StageCompleted = $1423 ; see $81879D
+!AL_LevelCompleted = $1423 ; see $81879D
 !AL_IncdWhenKillAl = $1424 ; see $83805B
 
 !AL_X_Subposition_143A = $143A
@@ -500,6 +506,7 @@ org !WRAM_START+$04 : ram_HUDTimer_last:
 org !WRAM_START+$06 : ram_lag_counter:
 org !WRAM_START+$08 : ram_room_seconds:
 org !WRAM_START+$0A : ram_room_frames:
+org !WRAM_START+$0C : ram_TimeAttack_DoNotRecord:
 
 org !WRAM_START+$10 : ram_cm_menu_stack:
 org !WRAM_START+$20 : ram_cm_cursor_stack:

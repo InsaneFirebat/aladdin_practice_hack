@@ -181,7 +181,7 @@ WORK:0CF8:AL_Hearts_0CF8
 WORK:141B:AL_DamageTaken_141B
 WORK:141C:AL_Movement_InAir_flag
 WORK:1420:AL_Pose_State
-WORK:1423:AL_StageCompleted:see $81879D
+WORK:1423:AL_LevelCompleted:see $81879D
 WORK:1424:AL_IncdWhenKillAl:see $83805B
 WORK:143A:AL_X_Subposition_143A
 WORK:143C:AL_X_Position_hi_143C
