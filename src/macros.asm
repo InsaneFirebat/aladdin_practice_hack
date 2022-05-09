@@ -106,6 +106,14 @@ macro cm_numfield_hex_word(title, addr)
     db #$28, "<title>", #$FF
 endmacro
 
+macro cm_numfield_time(title, addr, routine, argument)
+    dw !ACTION_NUMFIELD_TIME
+    dl <addr>
+    dw <routine>
+    dw <argument>
+    db #$28, "<title>", #$FF
+endmacro
+
 macro cm_numfield_color(title, addr, jsltarget)
     dw !ACTION_NUMFIELD_COLOR
     dl <addr>
@@ -236,6 +244,12 @@ endmacro
 macro sfxfail()
     PHP : %a8()
     LDA !sram_customsfx_fail : JSL !Play_SFX
+    PLP
+endmacro
+
+macro sfxreset()
+    PHP : %a8()
+    LDA !sram_customsfx_reset : JSL !Play_SFX
     PLP
 endmacro
 

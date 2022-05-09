@@ -37,6 +37,7 @@ action_submenu_jump:
 MainMenu:
     dw #mm_goto_equipment
     dw #mm_goto_levelselect
+    dw #mm_goto_timeattack
     dw #mm_goto_hud
     dw #mm_goto_settings
     dw #mm_goto_ctrl
@@ -52,6 +53,7 @@ endif
 MainMenuBanks:
     dw #EquipmentMenu>>16
     dw #LevelSelectMenu>>16
+    dw #TimeAttackMenu>>16
     dw #HUDDisplayMenu>>16
     dw #SettingsMenu>>16
     dw #CtrlMenu>>16
@@ -75,6 +77,9 @@ mm_goto_settings:
 
 mm_goto_ctrl:
     %cm_mainmenu("CONTROLLER SHORTCUTS", CtrlMenu)
+
+mm_goto_timeattack:
+    %cm_mainmenu("FASTEST LEVEL TIMES", TimeAttackMenu)
 
 mm_goto_audio:
     %cm_mainmenu("AUDIO MENU", AudioMenu)
@@ -634,7 +639,6 @@ endif
     dw #settings_stage_clear_skip
     dw #settings_story_time_skip
     dw #$FFFF
-    dw #settings_reset_all_times
     dw #settings_customize_sfx
     dw #$0000
     %cm_header("SETTINGS MENU")
@@ -662,14 +666,6 @@ settings_stage_clear_skip:
 
 settings_story_time_skip:
     %cm_toggle("Skip Story Time", !sram_story_time_skip, #$0001, #0)
-
-settings_reset_all_times:
-    %cm_jsl("Reset ALL Fastest Times", .routine, #$7FFF)
-  .routine
-    TYA : LDX #$001E
--   STA !sram_TimeAttack,X : DEX #2 : BPL -
-    %sfxfail()
-    RTL
 
 settings_customize_sfx:
     %cm_submenu("Customize Menu SFX", CustomizeSFXMenu)
@@ -926,8 +922,9 @@ CustomizeSFXMenu:
     dw #customize_sfx_confirm
     dw #customize_sfx_goback
     dw #sram_customsfx_fail
+    dw #sram_customsfx_reset
     dw #$FFFF
-    dw #customize_sfx_reset
+    dw #customize_sfx_default
     dw #$0000
     %cm_header("CUSTOMIZE MENU SOUND FX")
     %cm_footer("PRESS Y TO PLAY SOUNDS")
@@ -968,7 +965,13 @@ sram_customsfx_fail:
     %a8()
     LDA !sram_customsfx_fail : JML !Play_SFX
 
-customize_sfx_reset:
+sram_customsfx_reset:
+    %cm_numfield_sound("Reset", !sram_customsfx_fail, 0, 80, 1, 4, .routine)
+  .routine
+    %a8()
+    LDA !sram_customsfx_reset : JML !Play_SFX
+
+customize_sfx_default:
     %cm_jsl("Reset to Defaults", .routine, #$0000)
   .routine
     LDA #$000C : STA !sram_customsfx_move
@@ -977,7 +980,8 @@ customize_sfx_reset:
     LDA #$000B : STA !sram_customsfx_confirm
     LDA #$0008 : STA !sram_customsfx_goback
     LDA #$0002 : STA !sram_customsfx_fail
-    %sfxquake()
+    LDA #$004A : STA !sram_customsfx_reset
+    %sfxreset()
     RTL
 
 
@@ -1047,7 +1051,7 @@ ctrl_clear_shortcuts:
     STA !sram_ctrl_test_code
     ; menu to default, Start + Select
     LDA #$2000 : STA !sram_ctrl_menu
-    %sfxquake()
+    %sfxreset()
     RTL
 
 ctrl_reset_defaults:
@@ -1064,6 +1068,189 @@ ctrl_reset_defaults:
     LDA #$0000 : STA !sram_ctrl_test_code
     %sfxquake()
     RTL
+
+
+; ----------------
+; Time Attack Menu
+; ----------------
+
+TimeAttackMenu:
+    dw TimeAttack_Agrabah_1
+    dw TimeAttack_Agrabah_2
+    dw TimeAttack_Agrabah_3
+    dw TimeAttack_Agrabah_4
+    dw TimeAttack_Cave_1
+    dw TimeAttack_Cave_2
+    dw TimeAttack_Fire_1
+    dw TimeAttack_Fire_2
+    dw TimeAttack_Genie_1
+    dw TimeAttack_Genie_2
+    dw TimeAttack_Genie_3
+    dw TimeAttack_Pyramid_1
+    dw TimeAttack_Pyramid_2
+    dw TimeAttack_Pyramid_3
+    dw TimeAttack_Palace_1
+    dw TimeAttack_Palace_2
+    dw TimeAttack_Palace_3
+    dw TimeAttack_Palace_4
+    dw TimeAttack_Bonus
+    dw #$FFFF
+    dw TimeAttack_goto_reset
+    dw #$0000
+    %cm_header("FASTEST LEVEL COMPLETIONS")
+
+TimeAttack_Agrabah_1:
+    %cm_numfield_time("Agrabah 1", !sram_TimeAttack+$00, #0, #$7FFF)
+
+TimeAttack_Agrabah_2:
+    %cm_numfield_time("Agrabah 2", !sram_TimeAttack+$02, #0, #$7FFF)
+
+TimeAttack_Agrabah_3:
+    %cm_numfield_time("Agrabah 3", !sram_TimeAttack+$04, #0, #$7FFF)
+
+TimeAttack_Agrabah_4:
+    %cm_numfield_time("Agrabah 4", !sram_TimeAttack+$06, #0, #$7FFF)
+
+TimeAttack_Cave_1:
+    %cm_numfield_time("Cave 1", !sram_TimeAttack+$08, #0, #$7FFF)
+
+TimeAttack_Cave_2:
+    %cm_numfield_time("Cave 2", !sram_TimeAttack+$0A, #0, #$7FFF)
+
+TimeAttack_Fire_1:
+    %cm_numfield_time("Fire 1", !sram_TimeAttack+$0C, #0, #$7FFF)
+
+TimeAttack_Fire_2:
+    %cm_numfield_time("Fire 2", !sram_TimeAttack+$0E, #0, #$7FFF)
+
+TimeAttack_Genie_1:
+    %cm_numfield_time("Genie 1", !sram_TimeAttack+$10, #0, #$7FFF)
+
+TimeAttack_Genie_2:
+    %cm_numfield_time("Genie 2", !sram_TimeAttack+$12, #0, #$7FFF)
+
+TimeAttack_Genie_3:
+    %cm_numfield_time("Genie 3", !sram_TimeAttack+$14, #0, #$7FFF)
+
+TimeAttack_Pyramid_1:
+    %cm_numfield_time("Pyramid 1", !sram_TimeAttack+$16, #0, #$7FFF)
+
+TimeAttack_Pyramid_2:
+    %cm_numfield_time("Pyramid 2", !sram_TimeAttack+$18, #0, #$7FFF)
+
+TimeAttack_Pyramid_3:
+    %cm_numfield_time("Pyramid 3", !sram_TimeAttack+$1A, #0, #$7FFF)
+
+TimeAttack_Palace_1:
+    %cm_numfield_time("Palace 1", !sram_TimeAttack+$1C, #0, #$7FFF)
+
+TimeAttack_Palace_2:
+    %cm_numfield_time("Palace 2", !sram_TimeAttack+$1E, #0, #$7FFF)
+
+TimeAttack_Palace_3:
+    %cm_numfield_time("Palace 3", !sram_TimeAttack+$20, #0, #$7FFF)
+
+TimeAttack_Palace_4:
+    %cm_numfield_time("Palace 4", !sram_TimeAttack+$22, #0, #$7FFF)
+
+TimeAttack_Bonus:
+    %cm_numfield_time("Bonus Carpet Ride", !sram_TimeAttack+$24, #0, #$7FFF)
+
+TimeAttack_goto_reset:
+    %cm_submenu("Reset A Time", #TimeAttackResetMenu)
+
+
+TimeAttackResetMenu:
+    dw TimeAttack_reset_Agrabah_1
+    dw TimeAttack_reset_Agrabah_2
+    dw TimeAttack_reset_Agrabah_3
+    dw TimeAttack_reset_Agrabah_4
+    dw TimeAttack_reset_Cave_1
+    dw TimeAttack_reset_Cave_2
+    dw TimeAttack_reset_Fire_1
+    dw TimeAttack_reset_Fire_2
+    dw TimeAttack_reset_Genie_1
+    dw TimeAttack_reset_Genie_2
+    dw TimeAttack_reset_Genie_3
+    dw TimeAttack_reset_Pyramid_1
+    dw TimeAttack_reset_Pyramid_2
+    dw TimeAttack_reset_Pyramid_3
+    dw TimeAttack_reset_Palace_1
+    dw TimeAttack_reset_Palace_2
+    dw TimeAttack_reset_Palace_3
+    dw TimeAttack_reset_Palace_4
+    dw TimeAttack_reset_Bonus
+    dw #$0000
+    ; manual header/footer for red text
+    table ../resources/header.tbl
+    db #$2C, "RESET A FAST TIME", #$FF
+    dw #$F007 : db #$2C, "BEWARE, NO CONFIRMATION", #$FF
+    table ../resources/normal.tbl
+
+TimeAttack_reset_Agrabah_1:
+    %cm_numfield_time("Agrabah 1", !sram_TimeAttack+$00, Reset_Fast_Time, #$0000)
+
+TimeAttack_reset_Agrabah_2:
+    %cm_numfield_time("Agrabah 2", !sram_TimeAttack+$02, Reset_Fast_Time, #$0002)
+
+TimeAttack_reset_Agrabah_3:
+    %cm_numfield_time("Agrabah 3", !sram_TimeAttack+$04, Reset_Fast_Time, #$0004)
+
+TimeAttack_reset_Agrabah_4:
+    %cm_numfield_time("Agrabah 4", !sram_TimeAttack+$06, Reset_Fast_Time, #$0006)
+
+TimeAttack_reset_Cave_1:
+    %cm_numfield_time("Cave 1", !sram_TimeAttack+$08, Reset_Fast_Time, #$0008)
+
+TimeAttack_reset_Cave_2:
+    %cm_numfield_time("Cave 2", !sram_TimeAttack+$0A, Reset_Fast_Time, #$000A)
+
+TimeAttack_reset_Fire_1:
+    %cm_numfield_time("Fire 1", !sram_TimeAttack+$0C, Reset_Fast_Time, #$000C)
+
+TimeAttack_reset_Fire_2:
+    %cm_numfield_time("Fire 2", !sram_TimeAttack+$0E, Reset_Fast_Time, #$000E)
+
+TimeAttack_reset_Genie_1:
+    %cm_numfield_time("Genie 1", !sram_TimeAttack+$10, Reset_Fast_Time, #$0010)
+
+TimeAttack_reset_Genie_2:
+    %cm_numfield_time("Genie 2", !sram_TimeAttack+$12, Reset_Fast_Time, #$0012)
+
+TimeAttack_reset_Genie_3:
+    %cm_numfield_time("Genie 3", !sram_TimeAttack+$14, Reset_Fast_Time, #$0014)
+
+TimeAttack_reset_Pyramid_1:
+    %cm_numfield_time("Pyramid 1", !sram_TimeAttack+$16, Reset_Fast_Time, #$0016)
+
+TimeAttack_reset_Pyramid_2:
+    %cm_numfield_time("Pyramid 2", !sram_TimeAttack+$18, Reset_Fast_Time, #$0018)
+
+TimeAttack_reset_Pyramid_3:
+    %cm_numfield_time("Pyramid 3", !sram_TimeAttack+$1A, Reset_Fast_Time, #$001A)
+
+TimeAttack_reset_Palace_1:
+    %cm_numfield_time("Palace 1", !sram_TimeAttack+$1C, Reset_Fast_Time, #$001C)
+
+TimeAttack_reset_Palace_2:
+    %cm_numfield_time("Palace 2", !sram_TimeAttack+$1E, Reset_Fast_Time, #$001E)
+
+TimeAttack_reset_Palace_3:
+    %cm_numfield_time("Palace 3", !sram_TimeAttack+$20, Reset_Fast_Time, #$0020)
+
+TimeAttack_reset_Palace_4:
+    %cm_numfield_time("Palace 4", !sram_TimeAttack+$22, Reset_Fast_Time, #$0022)
+
+TimeAttack_reset_Bonus:
+    %cm_numfield_time("Bonus Carpet Ride", !sram_TimeAttack+$24, Reset_Fast_Time, #$0024)
+
+Reset_Fast_Time:
+{
+    ; argument already in X
+    LDA #$7FFF : STA !sram_TimeAttack,X
+    %sfxreset()
+    RTL
+}
 
 
 ; ----------

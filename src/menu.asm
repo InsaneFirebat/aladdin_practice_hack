@@ -424,6 +424,7 @@ cm_draw_action_table:
     dw draw_jsl_submenu
     dw draw_numfield_8bit
     dw draw_numfield_decimal
+    dw draw_numfield_time
 
 draw_toggle:
 {
@@ -742,6 +743,52 @@ draw_numfield_word:
 
   .done
     RTS
+}
+
+draw_numfield_time:
+{
+    ; grab the memory address (long)
+    LDA [$44] : INC $44 : INC $44 : STA $48
+    LDA [$44] : INC $44 : STA $4A
+
+    ; skip JSL target
+    INC $44 : INC $44
+
+    ; skip JSL argument
+    INC $44 : INC $44
+
+    ; Draw the text
+    %item_index_to_vram_index()
+    PHX : JSR cm_draw_text : PLX
+
+    ; set position for the input
+    TXA : CLC : ADC #$0028 : TAX
+
+    LDA [$48] : CMP #$7FFF : BEQ +
+    
+    ; Divide timer by 60
+    STA $4204
+    %a8()
+    LDA #$3C : STA $4206
+    PEA $BFBF : PLB : PLB ; wait for CPU math, set bank for number table
+    %a16()
+    LDA $4216 : STA !ram_tmp_3 ; frames
+
+    ; Draw seconds
+    LDA $4214 : JSR cm_draw3
+
+    ; Draw decimal
+    LDA !TILE_DECIMAL : STA !ram_tilemap_buffer,X
+    INX #2
+
+    ; Draw frames
+    LDA !ram_tmp_3 : AND #$00FF : ASL : TAY
+    LDA.w HexToNumberGFX1,Y : STA !ram_tilemap_buffer,X
+    INX #2
+    LDA.w HexToNumberGFX2,Y : STA !ram_tilemap_buffer,X
+
+    PHK : PLB
++   RTS
 }
 
 draw_numfield_sound:
@@ -1289,6 +1336,53 @@ MenuReadControllers:
     RTL
 }
 
+cm_draw3:
+{
+    LDA $4214 : STA $4204
+    ; divide by 10
+    %a8()
+    LDA #$0A : STA $4206
+    %a16()
+    PHB : PEA $BFBF : PLB : PLB
+    LDA $4214 : STA !ram_tmp_1
+
+    ; Ones digit
+    LDA $4216 : ASL : TAY
+    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer+4,X
+
+    LDA !ram_tmp_1 : BEQ .blanktens
+    STA $4204
+    ; divide by 10
+    %a8()
+    LDA #$0A : STA $4206
+    %a16()
+    PEA $BFBF : PLB : PLB
+    LDA $4214 : STA !ram_tmp_2
+
+    ; Tens digit
+    LDA $4216 : ASL : TAY
+    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer+2,X
+
+    ; Hundreds digit
+    LDA !ram_tmp_2 : BEQ .blankhundreds
+    ASL : TAY
+    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer,X
+
+  .done_seconds
+    INX #6
+    PLB
+    RTS
+
+  .blanktens
+    LDA !TILE_BLANK
+    STA !ram_tilemap_buffer,X : STA !ram_tilemap_buffer+2,X
+    BRA .done_seconds
+
+  .blankhundreds
+    LDA !TILE_BLANK : STA !ram_tilemap_buffer,X
+    BRA .done_seconds
+}
+
 
 ; --------
 ; Execute
@@ -1332,6 +1426,7 @@ cm_execute_action_table:
     dw execute_jsl_submenu
     dw execute_numfield_8bit
     dw execute_numfield_decimal
+    dw execute_numfield_time
 
 execute_toggle:
 {
@@ -1436,7 +1531,7 @@ execute_jsl:
     ; also ignore input held flag
     LDA !ram_cm_controller : BIT #$0341 : BNE .end
 
-    ; $44 = JSL target
+    ; $38 = JSL target
     LDA [$40] : INC $40 : INC $40 : STA $38
 
     ; Set return address for indirect JSL
@@ -1831,6 +1926,33 @@ execute_numfield_sound:
 execute_numfield_hex_word:
 {
     ; do nothing
+    RTS
+}
+
+execute_numfield_time:
+{
+    ; <, > and X should do nothing here
+    ; also ignore input held flag
+    LDA !ram_cm_controller : BIT #$0341 : BNE .end
+
+    ; Skip past address
+    INC $40 : INC $40 : INC $40
+
+    ; $38 = JSL target
+    LDA [$40] : BEQ .end
+    INC $40 : INC $40 : STA $38
+
+    ; Set return address for indirect JSL
+    LDA !ram_cm_menu_bank : STA $3A
+    PHK : PEA .end-1
+
+    ; X/Y = Argument
+    LDA [$40] : TAY : TAX
+
+    JML [$0038]
+
+  .end
+    %ai16()
     RTS
 }
 

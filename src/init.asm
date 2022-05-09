@@ -52,6 +52,7 @@ InitSRAM:
     LDA #$000B : STA !sram_customsfx_confirm
     LDA #$0008 : STA !sram_customsfx_goback
     LDA #$0002 : STA !sram_customsfx_fail
+    LDA #$004A : STA !sram_customsfx_reset
     LDA #$0001 : STA !sram_options_control_type
     LDA #$0000 : STA !sram_options_sound
     LDA #$0000 : STA !sram_stage_clear_skip

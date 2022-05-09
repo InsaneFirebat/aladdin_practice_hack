@@ -5,13 +5,13 @@ if !DEV_BUILD
 else
 !FEATURE_SAVESTATES ?= 0
 endif
-!SRAM_VERSION = #$0002 ; inc this to force new SRAM initialization
+!SRAM_VERSION = #$0003 ; inc this to force new SRAM initialization
 
 !VERSION_MAJOR = 1
 !VERSION_MINOR = 0
 !VERSION_BUILD = 0
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 2
+!VERSION_REV_2 = 3
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -49,6 +49,7 @@ endif
 !ACTION_JSL_SUBMENU         = #$001C
 !ACTION_NUMFIELD_8BIT       = #$001E
 !ACTION_NUMFIELD_DECIMAL    = #$0020
+!ACTION_NUMFIELD_TIME       = #$0022
 
 
 ; ------------
@@ -190,7 +191,7 @@ endif
 !sram_customsfx_confirm = !SRAM_START+$96
 !sram_customsfx_goback = !SRAM_START+$98
 !sram_customsfx_fail = !SRAM_START+$9A
-;!sram_customsfx_reset = !SRAM_START+$9C
+!sram_customsfx_reset = !SRAM_START+$9C
 
 !sram_TimeAttack = !SRAM_START+$A0 ; 0x30
 

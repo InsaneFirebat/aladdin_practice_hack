@@ -1,9 +1,10 @@
 
 Changes since Version 1.0.0
 
+[1.0.0.3]    Added a menu to display/reset fastest recorded level times
+[1.0.0.2]    Track fastest level completion times and display with red numbers
+[1.0.0.2]    Update HUD timers when completing carpet ride levels
+[1.0.0.2]    Update HUD timers when 4-3 checkpoint is triggered
+[1.0.0.2]    Fixed checkpoint being set when loading 4-3 from the menu
 [1.0.0.1]    Fixed broken Control-Type in menu
 [1.0.0.1]    Keep custom controls through level transitions
-[1.0.0.2]    Fixed checkpoint being set when loading 4-3 from the menu
-[1.0.0.2]    Update HUD timers when 4-3 checkpoint is triggered
-[1.0.0.2]    Update HUD timers when completing carpet ride levels
-[1.0.0.2]    Track fastest level completion times and display with red numbers
