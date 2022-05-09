@@ -218,7 +218,10 @@ CheckCarpetRideComplete:
     JML $818778
 
   .complete
-    JSL UpdateTimersLocal
+    PHD
+    INC !AL_LevelCompleted
+    JSL UpdateTimers
+    PLD
     JML $81879D ; JSR81879D_Inc2NextLevel
 }
 
