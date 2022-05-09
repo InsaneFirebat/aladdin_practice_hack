@@ -192,7 +192,7 @@ endif
 !sram_customsfx_fail = !SRAM_START+$9A
 ;!sram_customsfx_reset = !SRAM_START+$9C
 
-!sram_TimeAttack = !SRAM_START+$B0 ; 0x20
+!sram_TimeAttack = !SRAM_START+$A0 ; 0x30
 
 !sram_ctrl_menu = !SRAM_START+$D0
 !sram_ctrl_save_state = !SRAM_START+$D2

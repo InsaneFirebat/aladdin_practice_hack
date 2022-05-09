@@ -60,8 +60,8 @@ InitSRAM:
     LDA #$0001 : STA !sram_loadstate_music
     LDA #$0000 : STA !sram_loadstate_rng
 
-    ; $20 bytes for Time Attack
-    LDA #$7FFF : LDX #$001E
+    ; $30 bytes for Time Attack
+    LDA #$7FFF : LDX #$002E
 -   STA !sram_TimeAttack,X : DEX #2 : BPL -
 
     ; controller shortcuts
