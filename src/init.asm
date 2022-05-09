@@ -18,11 +18,13 @@ InitRAM:
     DEX #2 : BPL -
 
     ; check if SRAM has been initialized
-    LDA !sram_initialized : CMP !SRAM_VERSION : BEQ +
+    LDA !sram_initialized : CMP !SRAM_VERSION : BEQ .nonZeroValues
+    CMP #$0003 : BEQ UpdateSRAM_version03
     JSR InitSRAM
 
+  .nonZeroValues
     ; Non-zero default values
-+   LDA #$08E7 : STA !ram_watch_left   ; Al X Position
+    LDA #$08E7 : STA !ram_watch_left   ; Al X Position
     LDA #$08EA : STA !ram_watch_right  ; Al Y Position
 
     LDA !sram_cheat_code : STA !AL_CheatCode
@@ -30,6 +32,15 @@ InitRAM:
     %ai8()
     LDX #$01 : LDY #$0B ; overwritten code
     RTL
+}
+
+UpdateSRAM:
+{
+  .version03
+    ; addresses introduced in version 4 go here
+
+    LDA !SRAM_VERSION : STA !sram_initialized
+    JMP InitRAM_nonZeroValues
 }
 
 InitSRAM:
@@ -55,8 +66,8 @@ InitSRAM:
     LDA #$004A : STA !sram_customsfx_reset
     LDA #$0001 : STA !sram_options_control_type
     LDA #$0000 : STA !sram_options_sound
-    LDA #$0000 : STA !sram_stage_clear_skip
-    LDA #$0000 : STA !sram_story_time_skip
+    LDA #$0001 : STA !sram_stage_clear_skip
+    LDA #$0001 : STA !sram_story_time_skip
     LDA #$0000 : STA !sram_disable_music
     LDA #$0001 : STA !sram_loadstate_music
     LDA #$0000 : STA !sram_loadstate_rng

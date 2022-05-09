@@ -1,6 +1,8 @@
 
 Changes since Version 1.0.0
 
+[1.0.0.6]    Default to skipping stage clear and story time
+[1.0.0.6]    Allow SRAM to persist between versions
 [1.0.0.5]    Fixed blocking pause when completing certain levels
 [1.0.0.5]    Don't record times if checkpoint used
 [1.0.0.4]    Fixed tracking on carpet ride levels
