@@ -127,6 +127,7 @@ org $81825B : Major_loading_several_frames_long:
 org $81825F : Major_loading_several_frames:
 org $819647 : JSL819647_Clear_03F5_F9:
 org $819607 : ClearBG3Tilemap:
+org $818114 : Setup_Equipment_long:
 org $818118 : Setup_Equipment:
 org $8180DC : Restart_Equipment_long:
 org $8180E0 : Restart_Equipment: ; contains a cheat branch, seeds RNG

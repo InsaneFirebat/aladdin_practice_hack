@@ -234,8 +234,8 @@ ResetTimers:
     STA !ram_HUDTimer : STA !ram_lag_counter
     STA !ram_HUD_1 : STA !ram_HUD_2
     STA !ram_HUD_3 : STA !ram_HUD_4
-    STA !ram_TimeAttack_DoNotRecord
     INC !AL_HUD_tilemap_flag
+    LDA !AL_checkpoint : STA !ram_TimeAttack_DoNotRecord
 
     PLP
     JML $81BD20 ; overwritten code, was JSL

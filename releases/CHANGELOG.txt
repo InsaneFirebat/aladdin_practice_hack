@@ -1,6 +1,7 @@
 
 Changes since Version 1.0.0
 
+[1.0.0.5]    Don't record times if checkpoint used
 [1.0.0.4]    Fixed tracking on carpet ride levels
 [1.0.0.3]    Added a menu to display/reset fastest recorded level times
 [1.0.0.2]    Track fastest level completion times and display with red numbers
