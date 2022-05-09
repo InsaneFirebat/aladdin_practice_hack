@@ -241,25 +241,25 @@ macro sfxgoback() ; Go Back
     PLP
 endmacro
 
-macro sfxfail()
+macro sfxfail() ; Disallowed
     PHP : %a8()
     LDA !sram_customsfx_fail : JSL !Play_SFX
     PLP
 endmacro
 
-macro sfxreset()
+macro sfxreset() ; Reset or Clear
     PHP : %a8()
     LDA !sram_customsfx_reset : JSL !Play_SFX
     PLP
 endmacro
 
-macro sfxquake()
+macro sfxquake() ; Set Defaults
     PHP : %a8()
     LDA #$2B : JSL !Play_SFX
     PLP
 endmacro
 
-macro sfxsave()
+macro sfxsave() ; Set Controller Shortcut
     PHP : %a8()
     LDA #$09 : JSL !Play_SFX
     PLP

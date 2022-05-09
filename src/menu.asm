@@ -81,11 +81,14 @@ cm_init:
 
     LDA !AL_FRAME_COUNTER : STA !ram_cm_input_counter
 
-    LDA #$0001 : STA !ram_menu_active ; this tells NMI to swap out wram before and after executing normal routines
+    LDA #$0001 : STA !ram_menu_active
 
     LDA.l #MainMenu : STA !ram_cm_menu_stack
     LDA.l #MainMenu>>16 : STA !ram_cm_menu_bank
 
+    ; initialize menu from game variables
+    ; this gives us 16bit reads/writes on 8bit values
+    ; also allows level select options to be changed but not applied
     %a8()
     LDA !AL_cape : STA !cm_AL_cape
     LDA !AL_scarab : STA !cm_AL_scarab
@@ -156,7 +159,8 @@ cm_exit:
 
 cm_tilemap_swap:
 {
-    PHP : %a16()
+    ; Expects swap direction in A, 0 = backup, 1 = restore
+    PHP : %ai16()
     BEQ .backup
     ; restore
     LDX #$013E
@@ -191,6 +195,7 @@ wait_for_NMI:
 }
 
 cm_handle_sfx:
+; This would normally run at the end of NMI
 {
     PHP : %ai8()
     LDA !AL_Music_flag_0371 : BNE .done
@@ -1336,53 +1341,6 @@ MenuReadControllers:
     RTL
 }
 
-cm_draw3:
-{
-    LDA $4214 : STA $4204
-    ; divide by 10
-    %a8()
-    LDA #$0A : STA $4206
-    %a16()
-    PHB : PEA $BFBF : PLB : PLB
-    LDA $4214 : STA !ram_tmp_1
-
-    ; Ones digit
-    LDA $4216 : ASL : TAY
-    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer+4,X
-
-    LDA !ram_tmp_1 : BEQ .blanktens
-    STA $4204
-    ; divide by 10
-    %a8()
-    LDA #$0A : STA $4206
-    %a16()
-    PEA $BFBF : PLB : PLB
-    LDA $4214 : STA !ram_tmp_2
-
-    ; Tens digit
-    LDA $4216 : ASL : TAY
-    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer+2,X
-
-    ; Hundreds digit
-    LDA !ram_tmp_2 : BEQ .blankhundreds
-    ASL : TAY
-    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer,X
-
-  .done_seconds
-    INX #6
-    PLB
-    RTS
-
-  .blanktens
-    LDA !TILE_BLANK
-    STA !ram_tilemap_buffer,X : STA !ram_tilemap_buffer+2,X
-    BRA .done_seconds
-
-  .blankhundreds
-    LDA !TILE_BLANK : STA !ram_tilemap_buffer,X
-    BRA .done_seconds
-}
-
 
 ; --------
 ; Execute
@@ -2082,6 +2040,53 @@ execute_controller_input:
   .end
     %ai16()
     RTS
+}
+
+cm_draw3:
+{
+    LDA $4214 : STA $4204
+    ; divide by 10
+    %a8()
+    LDA #$0A : STA $4206
+    %a16()
+    PHB : PEA $BFBF : PLB : PLB
+    LDA $4214 : STA !ram_tmp_1
+
+    ; Ones digit
+    LDA $4216 : ASL : TAY
+    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer+4,X
+
+    LDA !ram_tmp_1 : BEQ .blanktens
+    STA $4204
+    ; divide by 10
+    %a8()
+    LDA #$0A : STA $4206
+    %a16()
+    PEA $BFBF : PLB : PLB
+    LDA $4214 : STA !ram_tmp_2
+
+    ; Tens digit
+    LDA $4216 : ASL : TAY
+    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer+2,X
+
+    ; Hundreds digit
+    LDA !ram_tmp_2 : BEQ .blankhundreds
+    ASL : TAY
+    LDA.w NumberGFXTable,Y : STA !ram_tilemap_buffer,X
+
+  .done_seconds
+    INX #6
+    PLB
+    RTS
+
+  .blanktens
+    LDA !TILE_BLANK
+    STA !ram_tilemap_buffer,X : STA !ram_tilemap_buffer+2,X
+    BRA .done_seconds
+
+  .blankhundreds
+    LDA !TILE_BLANK : STA !ram_tilemap_buffer,X
+    BRA .done_seconds
 }
 
 cm_hex2dec:

@@ -13,9 +13,7 @@ InitRAM:
 
     ; Zero RAM from $7FFF00 onward for practice hack use
     LDA #$0000 : LDX !WRAM_SIZE-2
-
--   STA !WRAM_START,X
-    DEX #2 : BPL -
+-   STA !WRAM_START,X : DEX #2 : BPL -
 
     ; check if SRAM has been initialized
     LDA !sram_initialized : CMP !SRAM_VERSION : BEQ .nonZeroValues

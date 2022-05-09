@@ -120,6 +120,20 @@ org $80B4D0
     JSL MusicToggle
 
 
+; Set level completed flag for TimeAttack
+org $80A201 ; After Farouk
+    JSR SetLevelCompleted
+
+org $80A260 ; Carpet awakens
+    JSR SetLevelCompleted
+
+org $80A2DA ; Approaching lamp
+    JSR SetLevelCompleted
+
+org $848AF6 ; Snake defeated
+    JSR SetLevelCompleted84
+
+
 org $BFC000
 print pc, " misc.asm start"
 

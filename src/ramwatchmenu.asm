@@ -255,6 +255,7 @@ ramwatch_common_addr_done:
     JSL cm_previous_menu
     LDY #RAMWatchMenu
     JSL ih_prepare_ram_watch_menu
+    %sfxconfirm()
     RTL
 
 ramwatch_common_back:
@@ -269,6 +270,7 @@ ramwatch_enable:
     %cm_jsl("Turn On RAM Watch", .routine, !HUD_MODE_RAMWATCH_INDEX)
   .routine
     TYA : STA !sram_display_mode
+    %sfxconfirm()
     RTL
 
 ramwatch_bank:
@@ -408,6 +410,7 @@ action_ramwatch_edit_left:
 +   LDA !ram_watch_edit_left : STA [$38]
     %a16()
     LDA !HUD_MODE_RAMWATCH_INDEX : STA !sram_display_mode
+    %sfxconfirm()
     RTL
 }
 
@@ -427,6 +430,7 @@ action_ramwatch_edit_right:
 +   LDA !ram_watch_edit_right : STA [$38]
     %a16()
     LDA !HUD_MODE_RAMWATCH_INDEX : STA !sram_display_mode
+    %sfxconfirm()
     RTL
 }
 

@@ -42,20 +42,6 @@ org $819EB5
     JSL ResetTimers
 
 
-; Set level completed flag instead of disabling pause for TimeAttack
-org $80A201
-    JSR SetLevelCompleted
-
-org $80A260
-    JSR SetLevelCompleted
-
-org $80A2DA
-    JSR SetLevelCompleted
-
-org $848AF6
-    JSR SetLevelCompleted84
-
-
 ; ------------
 ; HUD Routines
 ; ------------
@@ -63,18 +49,20 @@ org $848AF6
 org $BF8000
 print pc, " hudtimers.asm + huddisplay.asm start"
 
-; Check if a lag frame occured at the beginning of NMI (native)
+; Beginning of NMI (native)
 NMI_Hijack:
 {
+    ; Check if a lag frame occured
     %a8()
     LDA !AL_FRAME_COUNTER : CMP !AL_RENDER_COUNTER : BEQ +
     STA !AL_RENDER_COUNTER
     LDA !ram_lag_counter : INC : STA !ram_lag_counter
 
+    ; Jump to our "end of NMI" hijack if menu is open
 +   LDA !ram_menu_active : BEQ +
     INC !AL_FRAME_COUNTER
     %ai16()
-    JMP NMI_CountTimers_counter ; short circuit NMI if menu open
+    JMP NMI_CountTimers_counter ; short circuit NMI
 
 +   %ai16()
     CLD : LDA #$0000 ; overwritten code
@@ -85,13 +73,15 @@ NMI_Hijack:
 ; Increment timers and run HUD mode at end of NMI (native)
 NMI_CountTimers:
 {
+    ; Run HUD Mode if enabled
     LDA !sram_display_mode : BEQ .counter
     ASL : TAX
-    PEA $BFBF : PLB : PLB
+    PLK : PLB ; set to bank of number gfx tables
     JSR (DisplayModeTable,X)
     %ai16()
 
   .counter
+    ; Increment level timer
     LDA !ram_HUDTimer : INC : STA !ram_HUDTimer
 
   .done
@@ -279,6 +269,7 @@ HUD_Tilemap_Transfers:
     INX #2 : CPX #$12 : BNE -
 
   .top_row
+    ; typically used by HUD display modes
     %a16()
     LDX #$80 : STX $2115
     LDA #$5C4B : STA $2116
@@ -287,6 +278,7 @@ HUD_Tilemap_Transfers:
     INX #2 : CPX #$12 : BNE -
 
   .bottom_row
+    ; Unused for now
     %a16()
     TYA : AND #$000F : BEQ .done
     LDX #$80 : STX $2115
@@ -308,6 +300,8 @@ TimeAttack:
     ASL : TAX
     LDA !ram_TimeAttack_DoNotRecord : BNE +
     LDA !AL_LevelCompleted : AND #$00FF : BEQ +
+
+    ; Check if PB
     LDA !sram_TimeAttack,X : CMP !ram_HUDTimer : BPL .newPB
 +   RTS
 
