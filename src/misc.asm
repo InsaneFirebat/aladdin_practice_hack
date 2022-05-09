@@ -329,8 +329,16 @@ warnpc $BFE000 ; init.asm
 ; $30 bytes of freespace in bank $80
 ; due to hijacked HUD tilemap transfer
 org $80846E
-;print pc, " freespace bank80 start"
-;print pc, " freespace bank80 end"
+print pc, " freespace bank80 start"
+
+SetLevelCompleted:
+{
+    INC !AL_DisablePause
+    INC !AL_LevelCompleted
+    RTS
+}
+
+print pc, " freespace bank80 end"
 warnpc $80849E
 
 
@@ -352,6 +360,21 @@ org $83800D
 ; print pc, " freespace bank83 start"
 ; print pc, " freespace bank83 end"
 warnpc $838024
+
+
+; $80 bytes of freespace in bank $83
+; actual freespace in the rom?!
+org $84FF80
+
+SetLevelCompleted84:
+{
+    INC !AL_DisablePause
+    INC !AL_LevelCompleted
+    RTS
+}
+
+; print pc, " freespace bank83 start"
+; print pc, " freespace bank83 end"
 
 
 ; Blank area to write test code while in the debugger

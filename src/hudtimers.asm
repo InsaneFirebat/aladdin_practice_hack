@@ -44,16 +44,16 @@ org $819EB5
 
 ; Set level completed flag instead of disabling pause for TimeAttack
 org $80A201
-    INC !AL_LevelCompleted
+    JSR SetLevelCompleted
 
 org $80A260
-    INC !AL_LevelCompleted
+    JSR SetLevelCompleted
 
 org $80A2DA
-    INC !AL_LevelCompleted
+    JSR SetLevelCompleted
 
 org $848AF6
-    INC !AL_LevelCompleted
+    JSR SetLevelCompleted84
 
 
 ; ------------
