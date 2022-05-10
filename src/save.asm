@@ -30,6 +30,7 @@ pre_load_state:
     LDA !AL_MusicHandler_flag : STA !SRAM_SAVED_MUSIC2
     LDA !AL_APUCommand_to2140 : STA !SRAM_SAVED_APU
     %a16()
+    LDA !AL_RNG_1 : STA !SRAM_SAVED_RNG
 
     LDX #$0016
 -   LDA $0313,X : STA !SRAM_SAVED_STACK,X
@@ -169,7 +170,6 @@ save_write_table:
 
     %ai16()
     TSC : STA !SRAM_SAVED_SP
-    LDA !AL_RNG_1 : STA !SRAM_SAVED_RNG
     LDA !AL_Last_APU_Command : STA !SRAM_SAVED_LAST_APU
     JMP register_restore_return
 }
