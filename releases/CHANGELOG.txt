@@ -1,4 +1,12 @@
 
+## Version 1.0.1
+- Added a menu and tracking for fastest level completion times
+- Update HUD timers at checkpoints and carpet ride level completion
+- Fixes and improvements to ControlType settings
+- Fixes for loading levels with checkpoints
+
+
+
 Changes since Version 1.0.0
 
 [1.0.0.6]    Default to skipping stage clear and story time

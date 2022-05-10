@@ -76,7 +76,7 @@ NMI_CountTimers:
     ; Run HUD Mode if enabled
     LDA !sram_display_mode : BEQ .counter
     ASL : TAX
-    PLK : PLB ; set to bank of number gfx tables
+    PHK : PLB ; set to bank of number gfx tables
     JSR (DisplayModeTable,X)
     %ai16()
 
