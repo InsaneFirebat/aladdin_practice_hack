@@ -11,7 +11,7 @@ endif
 !VERSION_MINOR = 0
 !VERSION_BUILD = 1
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 0
+!VERSION_REV_2 = 1
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -119,6 +119,10 @@ endif
 !cm_AL_Invul_State = !WRAM_START+$7C
 
 !cm_AL_420C_HDMAEnable = !WRAM_START+$80
+
+!ram_rng_jafar = !WRAM_START+$B0
+!ram_rng_snake = !WRAM_START+$B2
+!ram_rng_snakefloor = !WRAM_START+$B4
 
 !ram_HUD_1 = !WRAM_START+$C0
 !ram_HUD_2 = !WRAM_START+$C2
@@ -487,6 +491,10 @@ endif
 ;!AL_NAME_1B16 = $1B16 ; used as an index in $848D07
 !AL_Options_ControlType = $1B17
 
+!AL_SnakeBody_Wave = $1B1B ; 0x01, 0-2
+
+!AL_Snake_EggAttack_Counter = $1B33 ; 0x01, can only use egg attack 3x in a row
+
 
 ; --------------
 ; Symbols Export
@@ -550,6 +558,10 @@ org !WRAM_START+$7A : cm_levelselect_checkpoint:
 org !WRAM_START+$7C : cm_AL_Invul_State:
 
 org !WRAM_START+$80 : cm_AL_420C_HDMAEnable:
+
+org !WRAM_START+$B0 : ram_rng_jafar:
+org !WRAM_START+$B2 : ram_rng_snake:
+org !WRAM_START+$B4 : ram_rng_snakefloor:
 
 org !WRAM_START+$C0 : ram_HUD_1:
 org !WRAM_START+$C2 : ram_HUD_2:

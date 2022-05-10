@@ -23,8 +23,9 @@ incsrc init.asm ; $BFE000
 incsrc controllerhooks.asm ; $BFB000
 incsrc hudtimers.asm ; $BF8000
 incsrc menu.asm ; $BE8000
-incsrc mainmenu.asm ; $BED000
+incsrc mainmenu.asm ; $BEC000
 incsrc misc.asm ; $BFC000
+incsrc rng.asm ; $BFD000
 
 if !FEATURE_SAVESTATES
 incsrc save.asm ; $BFF000

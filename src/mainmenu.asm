@@ -1,5 +1,5 @@
 
-org $BEE000
+org $BEC000
 print pc, " mainmenu.asm start"
 
 action_mainmenu:
@@ -39,6 +39,7 @@ MainMenu:
     dw #mm_goto_levelselect
     dw #mm_goto_timeattack
     dw #mm_goto_hud
+    dw #mm_goto_rng
     dw #mm_goto_settings
     dw #mm_goto_ctrl
     dw #mm_goto_audio
@@ -55,6 +56,7 @@ MainMenuBanks:
     dw #LevelSelectMenu>>16
     dw #TimeAttackMenu>>16
     dw #HUDDisplayMenu>>16
+    dw #RNGControlMenu>>16
     dw #SettingsMenu>>16
     dw #CtrlMenu>>16
     dw #AudioMenu>>16
@@ -71,6 +73,9 @@ mm_goto_levelselect:
 
 mm_goto_hud:
     %cm_mainmenu("HUD DISPLAY", HUDDisplayMenu)
+
+mm_goto_rng:
+    %cm_mainmenu("RNG CONTROL", RNGControlMenu)
 
 mm_goto_settings:
     %cm_mainmenu("SETTINGS", SettingsMenu)
@@ -618,6 +623,50 @@ Clear_InfoHUD:
 
     RTL
 }
+
+
+; -----------
+; RNG Control
+; -----------
+
+RNGControlMenu:
+    dw #rng_jafar
+    dw #$FFFF
+    dw #rng_snake
+    dw #rng_snakefloor
+    dw #$0000
+    %cm_header("RNG CONTROL MENU")
+
+rng_jafar:
+    dw !ACTION_CHOICE
+    dl #!ram_rng_jafar
+    dw #$0000
+    db #$28, "Jafar RNG", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, "      STAFF", #$FF
+    db #$28, "     SUMMON", #$FF
+    db #$FF
+
+rng_snake:
+    dw !ACTION_CHOICE
+    dl #!ram_rng_snake
+    dw #$0000
+    db #$28, "Snake RNG", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, "       EGGS", #$FF
+    db #$28, "     STRIKE", #$FF
+    db #$FF
+
+rng_snakefloor:
+    dw !ACTION_CHOICE
+    dl #!ram_rng_snakefloor
+    dw #$0000
+    db #$28, "Snake Floor", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, " SLOW WAVES", #$FF
+    db #$28, " FAST WAVES", #$FF
+    db #$FF
+
 
 
 ; --------

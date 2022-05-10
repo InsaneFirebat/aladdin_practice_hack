@@ -9,6 +9,7 @@
 
 Changes since Version 1.0.0
 
+[1.0.1.1]    Added options to control boss RNG
 [1.0.1.1]    Fixed preserve option for loadstate RNG
 [1.0.1]      Minor optimization to the NMI hijack
 [1.0.0.6]    Default to skipping stage clear and story time

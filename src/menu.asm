@@ -2142,3 +2142,4 @@ HexMenuGFXTable:
     dw $2830, $2831, $2832, $2833, $2834, $2835, $2836, $2837, $2838, $2839, $283A, $283B, $283C, $283D, $283E, $283F
 
 print pc, " menu end"
+warnpc $BEC000 ; mainmenu.asm

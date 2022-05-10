@@ -337,7 +337,7 @@ MusicToggle:
 
 
 print pc, " misc.asm end"
-warnpc $BFE000 ; init.asm
+warnpc $BFD000 ; rng.asm
 
 
 ; $30 bytes of freespace in bank $80
