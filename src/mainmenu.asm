@@ -634,27 +634,34 @@ RNGControlMenu:
     dw #$FFFF
     dw #rng_snake
     dw #rng_snakefloor
+    dw #$FFFF
+    dw #rng_pattern_0
+    dw #rng_pattern_1
+    dw #rng_pattern_2
+    dw #rng_pattern_3
     dw #$0000
     %cm_header("RNG CONTROL MENU")
 
 rng_jafar:
     dw !ACTION_CHOICE
     dl #!ram_rng_jafar
-    dw #$0000
+    dw #reset_pattern_index
     db #$28, "Jafar RNG", #$FF
     db #$28, " NORMAL RNG", #$FF
-    db #$28, "      STAFF", #$FF
-    db #$28, "     SUMMON", #$FF
+    db #$28, "  (1) STAFF", #$FF
+    db #$28, " (2) SUMMON", #$FF
+    db #$28, "    PATTERN", #$FF
     db #$FF
 
 rng_snake:
     dw !ACTION_CHOICE
     dl #!ram_rng_snake
-    dw #$0000
+    dw #reset_pattern_index
     db #$28, "Snake RNG", #$FF
     db #$28, " NORMAL RNG", #$FF
-    db #$28, "       EGGS", #$FF
-    db #$28, "     STRIKE", #$FF
+    db #$28, " (1) STRIKE", #$FF
+    db #$28, "   (2) EGGS", #$FF
+    db #$28, "    PATTERN", #$FF
     db #$FF
 
 rng_snakefloor:
@@ -667,6 +674,87 @@ rng_snakefloor:
     db #$28, " FAST WAVES", #$FF
     db #$FF
 
+rng_pattern_0:
+    dw !ACTION_CHOICE
+    dl #!cm_rng_pattern_0
+    dw #.routine
+    db #$28, "1st Attack", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, "        (1)", #$FF
+    db #$28, "        (2)", #$FF
+    db #$FF
+  .routine
+    LDA !cm_rng_pattern_0 : BNE +
+    LDA #$FFFF : STA !ram_rng_pattern_0
+    RTL
++   CMP #$0001 : BNE +
+    LDA #$0000 : STA !ram_rng_pattern_0
+    RTL
++   LDA #$0002 : STA !ram_rng_pattern_0
+    RTL
+
+rng_pattern_1:
+    dw !ACTION_CHOICE
+    dl #!cm_rng_pattern_1
+    dw #.routine
+    db #$28, "2nd Attack", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, "        (1)", #$FF
+    db #$28, "        (2)", #$FF
+    db #$FF
+  .routine
+    LDA !cm_rng_pattern_1 : BNE +
+    LDA #$FFFF : STA !ram_rng_pattern_1
+    RTL
++   CMP #$0001 : BNE +
+    LDA #$0000 : STA !ram_rng_pattern_1
+    RTL
++   LDA #$0002 : STA !ram_rng_pattern_1
+    RTL
+
+rng_pattern_2:
+    dw !ACTION_CHOICE
+    dl #!cm_rng_pattern_2
+    dw #.routine
+    db #$28, "3rd Attack", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, "        (1)", #$FF
+    db #$28, "        (2)", #$FF
+    db #$FF
+  .routine
+    LDA !cm_rng_pattern_2 : BNE +
+    LDA #$FFFF : STA !ram_rng_pattern_2
+    RTL
++   CMP #$0001 : BNE +
+    LDA #$0000 : STA !ram_rng_pattern_2
+    RTL
++   LDA #$0002 : STA !ram_rng_pattern_2
+    RTL
+
+rng_pattern_3:
+    dw !ACTION_CHOICE
+    dl #!cm_rng_pattern_3
+    dw #.routine
+    db #$28, "4th Attack", #$FF
+    db #$28, " NORMAL RNG", #$FF
+    db #$28, "        (1)", #$FF
+    db #$28, "        (2)", #$FF
+    db #$FF
+  .routine
+    LDA !cm_rng_pattern_3 : BNE +
+    LDA #$FFFF : STA !ram_rng_pattern_3
+    RTL
++   CMP #$0001 : BNE +
+    LDA #$0000 : STA !ram_rng_pattern_3
+    RTL
++   LDA #$0002 : STA !ram_rng_pattern_3
+    RTL
+
+reset_pattern_index:
+{
+    LDA #$0000 : STA !ram_rng_pattern_index
+    RTL
+}
 
 
 ; --------

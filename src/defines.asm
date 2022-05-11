@@ -11,7 +11,7 @@ endif
 !VERSION_MINOR = 0
 !VERSION_BUILD = 1
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 1
+!VERSION_REV_2 = 2
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -117,12 +117,21 @@ endif
 !cm_levelselect_level_index = !WRAM_START+$78
 !cm_levelselect_checkpoint = !WRAM_START+$7A
 !cm_AL_Invul_State = !WRAM_START+$7C
+!cm_rng_pattern_0 = !WRAM_START+$7E
+!cm_rng_pattern_1 = !WRAM_START+$80
+!cm_rng_pattern_2 = !WRAM_START+$82
+!cm_rng_pattern_3 = !WRAM_START+$84
 
-!cm_AL_420C_HDMAEnable = !WRAM_START+$80
+!cm_AL_420C_HDMAEnable = !WRAM_START+$A0
 
 !ram_rng_jafar = !WRAM_START+$B0
 !ram_rng_snake = !WRAM_START+$B2
 !ram_rng_snakefloor = !WRAM_START+$B4
+!ram_rng_pattern_index = !WRAM_START+$B6
+!ram_rng_pattern_0 = !WRAM_START+$B8
+!ram_rng_pattern_1 = !WRAM_START+$BA
+!ram_rng_pattern_2 = !WRAM_START+$BC
+!ram_rng_pattern_3 = !WRAM_START+$BE
 
 !ram_HUD_1 = !WRAM_START+$C0
 !ram_HUD_2 = !WRAM_START+$C2
@@ -556,12 +565,20 @@ org !WRAM_START+$76 : cm_levelselect_level:
 org !WRAM_START+$78 : cm_levelselect_level_index:
 org !WRAM_START+$7A : cm_levelselect_checkpoint:
 org !WRAM_START+$7C : cm_AL_Invul_State:
+org !WRAM_START+$7E : cm_rng_pattern_0:
+org !WRAM_START+$80 : cm_rng_pattern_1:
+org !WRAM_START+$82 : cm_rng_pattern_2:
 
 org !WRAM_START+$80 : cm_AL_420C_HDMAEnable:
 
 org !WRAM_START+$B0 : ram_rng_jafar:
 org !WRAM_START+$B2 : ram_rng_snake:
 org !WRAM_START+$B4 : ram_rng_snakefloor:
+org !WRAM_START+$B6 : ram_rng_pattern_index:
+org !WRAM_START+$B8 : ram_rng_pattern_0:
+org !WRAM_START+$BA : ram_rng_pattern_1:
+org !WRAM_START+$BC : ram_rng_pattern_2:
+org !WRAM_START+$BE : ram_rng_pattern_3:
 
 org !WRAM_START+$C0 : ram_HUD_1:
 org !WRAM_START+$C2 : ram_HUD_2:
