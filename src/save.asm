@@ -13,6 +13,7 @@
 !SRAM_SAVED_MUSIC2 = $77002E
 !SRAM_SAVED_APU = $77003C
 !SRAM_SAVED_LAST_APU = $77003E
+!SRAM_SAVED_STATE = $77004C
 !SRAM_SAVED_STACK = $770100
 
 
@@ -171,12 +172,17 @@ save_write_table:
     %ai16()
     TSC : STA !SRAM_SAVED_SP
     LDA !AL_Last_APU_Command : STA !SRAM_SAVED_LAST_APU
+    LDA #$5AFE : STA !SRAM_SAVED_STATE
     JMP register_restore_return
 }
 
 load_state:
 {
-    JSR pre_load_state
+    LDA !SRAM_SAVED_STATE : CMP #$5AFE : BEQ +
+    %sfxfail()
+    RTL
+
++   JSR pre_load_state
     PEA $0000 : PLB : PLB
 
     %a8()
