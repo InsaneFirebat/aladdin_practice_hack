@@ -11,7 +11,7 @@ endif
 !VERSION_MINOR = 0
 !VERSION_BUILD = 1
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 2
+!VERSION_REV_2 = 3
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -433,7 +433,9 @@ endif
 !AL_REG_2115_VRAMcontrol = $086A ; $2115 vram control, probably 0x01
 
 !AL_NAME_08DB = $08DB ; is the start of some chunk of RAM (DP), set to $8C in EnvironmentDamageAladdin
-!AL_Pointer_08DE = $08DE ; is a pointer involved in level loading
+!AL_08DD_IRQreturn_status = $08DD ; 0x01, P status register for RTI
+!AL_08DE_IRQreturn_addr = $08DE ; 0x02, return address for RTI
+!AL_08E0_IRQreturn_bank = $08E0 ; 0x01, return bank for RTI
 
 !AL_name_08E2 = $08E2 ; $06 if credits remaining, $0F if zero credits
 !AL_DamageTaken_08E3 = $08E3 ; ORA #$80 if damage taken

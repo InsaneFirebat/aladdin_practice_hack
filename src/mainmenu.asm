@@ -300,13 +300,13 @@ Inc2NextLevel:
 
 +   LDX !AL_Level_index
     LDA $80B96B,X : BEQ .Y_CBF9
-    LDY #$E730 : BRA .store_Y
+    LDY #$E730 : BRA .store_returnPointer
 
   .Y_CBF9
     LDY #$CBF9
 
-  .store_Y
-    STY !AL_Pointer_08DE
+  .store_returnPointer
+    STY !AL_08DE_IRQreturn_addr
     %ai8()
     LDX #$00 : STZ !AL_checkpoint
     STZ !AL_direction_facing : STZ !AL_direction_travelling
@@ -1103,7 +1103,7 @@ sram_customsfx_fail:
     LDA !sram_customsfx_fail : JML !Play_SFX
 
 sram_customsfx_reset:
-    %cm_numfield_sound("Reset", !sram_customsfx_fail, 0, 80, 1, 4, .routine)
+    %cm_numfield_sound("Reset", !sram_customsfx_reset, 0, 80, 1, 4, .routine)
   .routine
     %a8()
     LDA !sram_customsfx_reset : JML !Play_SFX
@@ -1160,7 +1160,7 @@ ctrl_next_level:
     %cm_ctrl_shortcut("Load Next Level", !sram_ctrl_next_level)
 
 ctrl_kill_Aladdin:
-    %cm_ctrl_shortcut("Kill Aladdin", !sram_ctrl_kill_Aladdin)
+    %cm_ctrl_shortcut("Restart Level", !sram_ctrl_kill_Aladdin)
 
 ctrl_refill:
     %cm_ctrl_shortcut("Refill Equipment", !sram_ctrl_refill)

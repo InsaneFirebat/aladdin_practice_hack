@@ -9,6 +9,7 @@
 
 Changes since Version 1.0.0
 
+[1.0.1.3]    Fixed broken reset option in SFX customization
 [1.0.1.2]    Added Pattern option to control RNG over multiple rounds
 [1.0.1.1]    Added options to control boss RNG
 [1.0.1.1]    Fixed preserve option for loadstate RNG

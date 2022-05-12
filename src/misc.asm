@@ -28,6 +28,7 @@ org $81BD5C
     PLP
     JML $008000 ; soft reset
 +   PLP
+warnpc $81BD6E
 
 
 ; Modified and recompressed HUD graphics

@@ -37,7 +37,7 @@ org $81F7CB : StageClearScreen_secondLoop:
 org $81F808 : StageClearScreen_thirdLoopStart: ; reveal password
 org $81F813 : StageClearScreen_thirdLoop:
 org $81F8B0 : StageClearScreen_fourthLoopStart: ; Genie exits
-org $81F8B0 : StageClearScreen_fourthLoop:
+org $81F8B4 : StageClearScreen_fourthLoop:
 org $81F8C2 : StageClearScreen_fifthLoopStart: ; Waiting for music?
 org $81F8C6 : StageClearScreen_fifthLoop:
 org $81F8D4 : StageClearScreen_sixthLoopStart: ; draw rubies
@@ -116,7 +116,7 @@ org $A08000 : HUD_BG3_Tileset:
 org $81803A : StartOfDemoLoading:
 org $818066 : SetStageLevel_Demo:
 org $818095 : HandleEquipment:
-org $8080A3 : HandleEquipment_Respawn:
+org $8180A3 : HandleEquipment_Respawn:
 org $8180B5 : HandleEquipment_GameOverCredit:
 org $8180D3 : HandleEquipment_Demo:
 org $818153 : SetStageLevelIndex_long:

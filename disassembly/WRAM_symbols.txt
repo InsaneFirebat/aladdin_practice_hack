@@ -158,7 +158,9 @@ WORK:0867:AL_REG_4304_srcBank
 WORK:0868:AL_REG_4305_DMAsize
 WORK:086A:AL_REG_2115_VRAMcontrol
 WORK:08DB:AL_NAME_08DB:the start of some chunk of RAM (DP), set to $8C in EnvironmentDamageAladdin
-WORK:08DE:AL_Pointer_08DE:a pointer involved in level loading
+WORK:08DD:AL_08DD_IRQreturn_status:0x01, P status register for RTI
+WORK:08DE:AL_08DE_IRQreturn_addr:0x02, return address for RTI
+WORK:08E0:AL_08E0_IRQreturn_bank:0x01, return bank for RTI
 WORK:08E2:AL_name_08E2:$06 if credits remaining, $0F if zero credits
 WORK:08E3:AL_DamageTaken_08E3:ORA #$80 if damage taken
 WORK:08E6:AL_X_Subpos:0x01
@@ -200,3 +202,5 @@ WORK:1B14:AL_Options_Unknown_1B14
 WORK:1B15:AL_Options_BGM
 WORK:1B16:AL_NAME_1B16
 WORK:1B17:AL_Options_ControlType
+WORK:1B1B:AL_SnakeBody_Wave:0x01, 0-2
+WORK:1B33:AL_Snake_EggAttack_Counter:0x01, can only use egg attack 3x in a row

@@ -170,6 +170,10 @@ REG = Register mirror
   7E0868  $0002  REG $4305 DMA size
   7E086A  $0002  REG $2115 VRAM control
 
+  7E08DD  $0001  P status register for RTI
+  7E08DE  $0002  return address for RTI
+  7E08E0  $0001  return bank for RTI
+
   7E08E2  $0001  $08 if credits remaining, $0F if no credits (game over)
   7E08E3  $0001  ORA #$80 if damage taken
 

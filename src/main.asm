@@ -15,9 +15,7 @@ org $BFFFFF
 table ../resources/normal.tbl
 incsrc macros.asm
 incsrc defines.asm
-if !DEV_BUILD
 incsrc ../disassembly/research.asm ; for exporting symbols with asar
-endif
 
 incsrc init.asm ; $BFE000
 incsrc controllerhooks.asm ; $BFB000
