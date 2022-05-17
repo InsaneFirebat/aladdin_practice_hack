@@ -1,4 +1,9 @@
 
+## Version 1.0.2
+- Added options to control boss RNG
+- Fixes for loadstate RNG settings
+- Fixed Genie - 3 Checkpoint in the level select list
+
 ## Version 1.0.1
 - Added a menu and tracking for fastest level completion times
 - Update HUD timers at checkpoints and carpet ride level completion
@@ -9,6 +14,7 @@
 
 Changes since Version 1.0.0
 
+[1.0.2]      Fixed Genie - 3 Checkpoint loading the beginning of the level
 [1.0.1.3]    Fixed broken reset option in SFX customization
 [1.0.1.2]    Added Pattern option to control RNG over multiple rounds
 [1.0.1.1]    Added options to control boss RNG

@@ -471,6 +471,7 @@ levelselect_list_load:
     LDA !cm_levelselect_level : DEC : ASL : TAY
     LDA ($40),Y : STA !cm_levelselect_level_index
 
+    LDA !cm_levelselect_level_index : CMP #$000A : BEQ +
     LDA !cm_levelselect_level_index : CMP #$0010 : BEQ +
     LDA #$0000 : STA !cm_levelselect_checkpoint
 
