@@ -1751,7 +1751,8 @@ execute_numfield_word:
     STA [$44] : BRA .jsl
 
   .pressed_left
-    LDA [$44] : SEC : SBC $3C : BMI .set_to_max
+    LDA [$44] : SEC : SBC $3C
+    CMP $48 : BMI .set_to_max
 
     CMP $4A : BCS .set_to_max
 
