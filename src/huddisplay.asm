@@ -9,6 +9,7 @@ DisplayModeTable:
     dw #DisplayMode_iframes
     dw #DisplayMode_RNG
     dw #DisplayMode_rubies
+    dw #DisplayMode_checkpoint
     dw #DisplayMode_ramwatch
 
 DisplayMode_OFF:
@@ -155,6 +156,28 @@ DisplayMode_inputdisplay:
     RTS
 }
 
+DisplayMode_checkpoint:
+{
+    LDA !AL_X_Position : CMP !ram_HUD_1 : BEQ +
+    STA !ram_HUD_1
+    LDX #$0096 : JSR Draw4
+    LDA !ram_update_HUD : ORA #$0010 : STA !ram_update_HUD
+
++   LDA !ram_HUD_3 : BNE .done
+    LDA !sram_custom_checkpoint : CMP !ram_HUD_2 : BEQ +
+    STA !ram_HUD_2
+    LDX #$00A0 : JSR Draw4
+    LDA !ram_update_HUD : ORA #$0010 : STA !ram_update_HUD
+
++   LDA !AL_X_Position : CMP !sram_custom_checkpoint : BMI .done
+    LDA !ram_HUD_3 : BNE .done
+    JSL UpdateTimersLocal
+    LDA #$0001 : STA !ram_HUD_3
+
+  .done
+    RTS
+}
+
 DisplayMode_ramwatch:
 {
     ; Store addresses
@@ -216,4 +239,3 @@ DisplayMode_ramwatch:
 
 +   RTS
 }
-

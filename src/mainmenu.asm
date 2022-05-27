@@ -539,6 +539,7 @@ HUDDisplayMenu:
     dw #HUD_display_mode_list
     dw #HUD_display_mode_choice
     dw #$FFFF
+    dw #HUD_custom_checkpoint
     dw #HUD_ram_watch
     dw #$0000
     %cm_header("HUD DISPLAY MENU")
@@ -556,6 +557,7 @@ HUDDisplayList:
     dw #HUD_list_iframes
     dw #HUD_list_rng
     dw #HUD_list_rubies
+    dw #HUD_list_checkpoint
     dw #HUD_list_ramwatch
     dw #$0000
     %cm_header("SELECT DISPLAY MODE")
@@ -584,7 +586,10 @@ HUD_list_rng:
 HUD_list_rubies:
     %cm_jsl("Rubies Collected", #select_infohud_mode, #$0007)
 
-!HUD_MODE_RAMWATCH_INDEX = #$0008
+HUD_list_checkpoint:
+    %cm_jsl("Custom Checkpoint System", #select_infohud_mode, #$0008)
+
+!HUD_MODE_RAMWATCH_INDEX = #$0009
 HUD_list_ramwatch:
     %cm_jsl("RAM Watch", #select_infohud_mode, !HUD_MODE_RAMWATCH_INDEX)
 
@@ -601,8 +606,12 @@ HUD_display_mode_choice:
     db #$28, "   I-FRAMES", #$FF
     db #$28, "        RNG", #$FF
     db #$28, "     RUBIES", #$FF
+    db #$28, " CHECKPOINT", #$FF
     db #$28, "  RAM WATCH", #$FF
     db #$FF
+
+HUD_custom_checkpoint:
+    %cm_numfield_word("Custom Checkpoint X Pos", !sram_custom_checkpoint, 500, 9999, 1, 10, #0)
 
 HUD_ram_watch:
     %cm_submenu("Configure RAM Watch", #RAMWatchMenu)

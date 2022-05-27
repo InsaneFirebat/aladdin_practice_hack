@@ -18,6 +18,7 @@ InitRAM:
     ; check if SRAM has been initialized
     LDA !sram_initialized : CMP !SRAM_VERSION : BEQ .nonZeroValues
     CMP #$0003 : BEQ UpdateSRAM_version03
+    CMP #$0004 : BEQ UpdateSRAM_version04
     JSR InitSRAM
 
   .nonZeroValues
@@ -35,7 +36,10 @@ InitRAM:
 UpdateSRAM:
 {
   .version03
-    ; addresses introduced in version 4 go here
+    LDA #$01F4 : STA !sram_custom_checkpoint
+
+  .version04
+    ; addresses introduced in version 5 go here
 
     LDA !SRAM_VERSION : STA !sram_initialized
     JMP InitRAM_nonZeroValues

@@ -5,13 +5,13 @@ if !DEV_BUILD
 else
 !FEATURE_SAVESTATES ?= 0
 endif
-!SRAM_VERSION = #$0003 ; inc this to force new SRAM initialization
+!SRAM_VERSION = #$0004 ; inc this to initialization new SRAM
 
 !VERSION_MAJOR = 1
 !VERSION_MINOR = 0
 !VERSION_BUILD = 2
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 2
+!VERSION_REV_2 = 3
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -178,6 +178,7 @@ endif
 !sram_initialized = !SRAM_START+$00
 
 !sram_display_mode = !SRAM_START+$10
+!sram_custom_checkpoint = !SRAM_START+$12
 
 !sram_infinite_apples = !SRAM_START+$20
 !sram_infinite_lives = !SRAM_START+$22

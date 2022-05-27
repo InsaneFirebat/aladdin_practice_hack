@@ -14,6 +14,7 @@
 
 Changes since Version 1.0.0
 
+[1.0.2.3]    Added a special HUD mode to update HUD timers when specified X position is reached
 [1.0.2.2]    HUD Timers only update on certain music calls (was all music calls)
 [1.0.2.2]    Fixed HUD timer not resetting to zero when starting a level
 [1.0.2.2]    Fixed unwanted timers appearing on non-gameplay screens
