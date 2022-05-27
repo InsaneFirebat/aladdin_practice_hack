@@ -11,7 +11,7 @@ endif
 !VERSION_MINOR = 0
 !VERSION_BUILD = 2
 !VERSION_REV_1 = 0
-!VERSION_REV_2 = 0
+!VERSION_REV_2 = 2
 
 !TILE_BLANK = #$2000
 !TILE_DECIMAL = #$2029
@@ -281,7 +281,11 @@ endif
 !AL_Password4th = $00A6
 !AL_Password3rd = $00A7
 !AL_Password2nd = $00A8
-!AL_Password1st = $00A9
+!AL_Password1st = $00A9 ; also BreakTime_WheelCursor
+
+!AL_BreakTime_Timer = $00B2
+;!AL_BreakTime_???? = $00B3 ; set to $80 when prize chosen
+!AL_BreakTime_NextMusic = $00B4
 
 !AL_MultiStack_index = $0327
 !AL_NumberOfIdleLoops = $0328 ; always $08, stored to $0329

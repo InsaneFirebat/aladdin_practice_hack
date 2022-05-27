@@ -4,42 +4,76 @@
 ; -------
 
 ; Hijack beginning of NMI (native) routine to maybe redraw HUD
+; Start of NMI: count lag or short circuit NMI for menu
 org $808118
     JML NMI_Hijack
 
-
-; Hijack HUD tilemap transfer
-org $808469
-    JML HUD_Tilemap_Transfers
-HUD_Tilemap_Transfers_return:
-    RTS
-
-
-; Hijack end of NMI (native) routine to update timers
+; End of NMI: inc timers
 org $80832C
     JML NMI_CountTimers
 
 
-; Hijack music change routine to update the HUD
-org $81FA31
-    JSL UpdateTimers
+; End of fade-in loop: reset timers
+org $819EB5
+    JSL ResetTimers
 
 
-; Hijack checkpoint set to update the HUD
+; Set checkpoint: update HUD
 org $81870E
     JML CheckPointReached
     NOP
 CheckPointReached_return:
 
-
-; Hijack carpet ride progress check
+; Carpet ride progress check: update HUD
 org $818787
     JML CheckCarpetRideComplete
 
+; Level complete music call: update HUD
+org $81CC01
+    JSL UpdateTimersOnMusic
 
-; Hijack end of fade-in loop to reset timers
-org $819EB5
-    JSL ResetTimers
+; Approaching Boss (Farouk) music call: update HUD
+org $80A1B8
+    JSL UpdateTimersOnMusic
+
+; Approaching Jasmine music call: update HUD
+org $80A225
+    JSL UpdateTimersOnMusic
+
+; Carpet awakens music call: update HUD
+org $83EC87
+    JSL UpdateTimersOnMusic
+
+; Approaching lamp music call: update HUD
+org $80A354
+    JSL UpdateTimersOnMusic
+
+; Approaching possessed Abu music call: update HUD
+org $80A57D
+    JSL UpdateTimersOnMusic
+
+; Approaching Jafar music call: update HUD
+org $80A607
+    JSL UpdateTimersOnMusic
+
+; Starting Snake fight music call: update HUD
+org $849412
+    JSL UpdateTimersOnMusic
+
+; End Snake fight music call: update HUD
+org $848B94
+    JSL UpdateTimersOnMusic
+
+; Aladdin Dies music call: update HUD
+org $81DC0F
+    JSL UpdateTimersOnMusic
+
+
+; HUD tilemap transfer to VRAM
+org $808469
+    JML HUD_Tilemap_Transfers
+HUD_Tilemap_Transfers_return:
+    RTS
 
 
 ; ------------
@@ -91,9 +125,56 @@ NMI_CountTimers:
 }
 
 
-; Update timers on HUD at every music change
-UpdateTimers:
+; Reset timer when loading a level
+ResetTimers:
 {
+    LDA !AL_Level_index : CMP #$13 : BPL +
+
+    %ai16()
+    LDA #$0000
+    STA !ram_HUDTimer : STA !ram_lag_counter
+    STA !ram_HUD_1 : STA !ram_HUD_2
+    STA !ram_HUD_3 : STA !ram_HUD_4
+    INC !AL_HUD_tilemap_flag
+    LDA !ram_TimeAttack_DoNotRecord : ORA !AL_checkpoint : STA !ram_TimeAttack_DoNotRecord
+    JSL UpdateTimersLocal
+    %ai8()
+
++   JML $81BD20 ; overwritten code, was JSL
+}
+
+
+; Update timers when setting 3-1 or 4-3 checkpoints
+CheckPointReached:
+{
+    LDX #$01 : STX !AL_checkpoint
+    LDX !AL_Level_index : CPX #$10 : BEQ + ; don't update on 6-3
+    %ai16()
+    JSL UpdateTimersLocal
++   %ai8()
+    JML CheckPointReached_return
+}
+
+
+; Update timers when completing a carpet ride level
+CheckCarpetRideComplete:
+{
+    BCC .complete
+    JML $818778 ; return
+
+  .complete
+    PHD
+    INC !AL_LevelCompleted
+    JSL UpdateTimersLocal
+    PLD
+    JML $81879D ; JSR81879D_Inc2NextLevel
+}
+
+
+; Update timers on HUD on certain music changes
+UpdateTimersOnMusic:
+{
+    PHA : %ai16() ; push 8bit A
     PHB : PHK : PLB ; set to bank of HexToNumberGFX tables
 
     ; Draw previous room frames
@@ -113,8 +194,8 @@ UpdateTimers:
     %a8()
     LDA #$3C : STA $4206
     LDA !ram_update_HUD : ORA #$01 : STA !ram_update_HUD
-;    PHA : PLA : PHA : PLA ; wait for CPU math, replaced with above
     %a16()
+;    PHA : PLA : PHA : PLA ; wait for CPU math, replaced with above
     LDA $4214 : STA !ram_room_seconds
     LDA $4216 : STA !ram_room_frames
 
@@ -133,12 +214,16 @@ UpdateTimers:
     LDA !TILE_DECIMAL
     STA !ram_tilemap_buffer+$138 : STA !ram_tilemap_buffer+$122
 
-    ; Clear last APU command, but don't touch the value beside it
-    LDA !AL_Last_APU_Command : AND #$FF00 : STA !AL_Last_APU_Command
+    ; Return to 8bit
+    %ai8()
+
+    ; Clear last APU command
+    ; Helps decide if savestates should load music
+    STZ !AL_Last_APU_Command
 
     PLB
-    LDA #$0000 : TCD ; overwritten code
-    RTL
+    ; Pull 8bit A and jump to music
+    PLA : JML !Play_Music_Prep
 }
 
 ; Called by other practice hack functions
@@ -188,47 +273,58 @@ UpdateTimersLocal:
     RTL
 }
 
-
-; Update timers when setting 4-3 checkpoint
-CheckPointReached:
+TimeAttack:
 {
-    LDX #$01 : STX !AL_checkpoint
-    LDX !AL_Level_index : CPX #$10 : BEQ + ; don't update on 6-3
-    %ai16()
-    JSL UpdateTimersLocal
-+   %ai8()
-    JML CheckPointReached_return
-}
+    LDA !AL_Level_index : AND #$00FF : CMP #$0013 : BPL +
+    ASL : TAX
+    LDA !ram_TimeAttack_DoNotRecord : BNE +
+    LDA !AL_LevelCompleted : AND #$00FF : BEQ +
 
+    ; Check if PB
+    LDA !sram_TimeAttack,X : CMP !ram_HUDTimer : BPL .newPB
++   RTS
 
-; Update timers when completing a carpet ride level
-CheckCarpetRideComplete:
-{
-    BCC .complete
-    JML $818778
+  .newPB
+    PLA ; pull return address, finish UpdateTimers from here
+    LDA !ram_HUDTimer : STA !sram_TimeAttack,X
 
-  .complete
-    PHD
-    INC !AL_LevelCompleted
-    JSL UpdateTimers
-    PLD
-    JML $81879D ; JSR81879D_Inc2NextLevel
-}
+    ; Divide timer by 60
+    STZ $4205 : STA $4204
+    STA !ram_HUDTimer_last
+    %a8()
+    LDA #$3C : STA $4206
+    LDA !ram_update_HUD : ORA #$01 : STA !ram_update_HUD
+;    PHA : PLA : PHA : PLA ; wait for CPU math, replaced with above
+    %a16()
+    LDA $4214 : STA !ram_room_seconds
+    LDA $4216 : STA !ram_room_frames
 
+    ; Draw frames
+    ASL : TAX
+    LDA HexToNumberGFX1,X : ORA #$0C00 : STA !ram_tilemap_buffer+$13A
+    LDA HexToNumberGFX2,X : ORA #$0C00 : STA !ram_tilemap_buffer+$13C
 
-; Reset timer when loading a level
-ResetTimers:
-{
-    PHP : %ai16()
-    LDA #$0000
-    STA !ram_HUDTimer : STA !ram_lag_counter
-    STA !ram_HUD_1 : STA !ram_HUD_2
-    STA !ram_HUD_3 : STA !ram_HUD_4
-    INC !AL_HUD_tilemap_flag
-    LDA !AL_checkpoint : STA !ram_TimeAttack_DoNotRecord
+    ; Draw seconds
+    LDA !ram_room_seconds : LDX #$0132 : JSR Draw3
+    LDA !ram_tilemap_buffer+$132 : ORA #$0C00 : STA !ram_tilemap_buffer+$132
+    LDA !ram_tilemap_buffer+$134 : ORA #$0C00 : STA !ram_tilemap_buffer+$134
+    LDA !ram_tilemap_buffer+$136 : ORA #$0C00 : STA !ram_tilemap_buffer+$136
 
-    PLP
-    JML $81BD20 ; overwritten code, was JSL
+    ; Draw lag frames
+    LDA !ram_lag_counter : LDX #$012A : JSR Draw3
+
+    ; Draw decimal seperators
+    LDA !TILE_DECIMAL
+    STA !ram_tilemap_buffer+$122 : ORA #$0C00 : STA !ram_tilemap_buffer+$138
+
+    ; Clear last APU command, but don't touch the value beside it
+    LDA !AL_Last_APU_Command : AND #$FF00 : STA !AL_Last_APU_Command
+
+    %ai8()
+    PLB
+
+    ; pull 8bit A and jump to music
+    PLA : JML !Play_Music_Prep
 }
 
 
@@ -291,59 +387,6 @@ HUD_Tilemap_Transfers:
     PLP
     LDA #$00 : STA !ram_update_HUD
     JML HUD_Tilemap_Transfers_return
-}
-
-
-TimeAttack:
-{
-    LDA !AL_Level_index : AND #$00FF : CMP #$0013 : BPL +
-    ASL : TAX
-    LDA !ram_TimeAttack_DoNotRecord : BNE +
-    LDA !AL_LevelCompleted : AND #$00FF : BEQ +
-
-    ; Check if PB
-    LDA !sram_TimeAttack,X : CMP !ram_HUDTimer : BPL .newPB
-+   RTS
-
-  .newPB
-    PLA ; pull return address, finish UpdateTimers from here
-    LDA !ram_HUDTimer : STA !sram_TimeAttack,X
-
-    ; Divide timer by 60
-    STZ $4205 : STA $4204
-    STA !ram_HUDTimer_last
-    %a8()
-    LDA #$3C : STA $4206
-    LDA !ram_update_HUD : ORA #$01 : STA !ram_update_HUD
-;    PHA : PLA : PHA : PLA ; wait for CPU math, replaced with above
-    %a16()
-    LDA $4214 : STA !ram_room_seconds
-    LDA $4216 : STA !ram_room_frames
-
-    ; Draw frames
-    ASL : TAX
-    LDA HexToNumberGFX1,X : ORA #$0C00 : STA !ram_tilemap_buffer+$13A
-    LDA HexToNumberGFX2,X : ORA #$0C00 : STA !ram_tilemap_buffer+$13C
-
-    ; Draw seconds
-    LDA !ram_room_seconds : LDX #$0132 : JSR Draw3
-    LDA !ram_tilemap_buffer+$132 : ORA #$0C00 : STA !ram_tilemap_buffer+$132
-    LDA !ram_tilemap_buffer+$134 : ORA #$0C00 : STA !ram_tilemap_buffer+$134
-    LDA !ram_tilemap_buffer+$136 : ORA #$0C00 : STA !ram_tilemap_buffer+$136
-
-    ; Draw lag frames
-    LDA !ram_lag_counter : LDX #$012A : JSR Draw3
-
-    ; Draw decimal seperators
-    LDA !TILE_DECIMAL
-    STA !ram_tilemap_buffer+$122 : ORA #$0C00 : STA !ram_tilemap_buffer+$138
-
-    ; Clear last APU command, but don't touch the value beside it
-    LDA !AL_Last_APU_Command : AND #$FF00 : STA !AL_Last_APU_Command
-
-    PLB
-    LDA #$0000 : TCD ; overwritten code
-    RTL
 }
 
 

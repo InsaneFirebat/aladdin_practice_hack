@@ -29,7 +29,9 @@ WORK:00A5:AL_PasswordCursor
 WORK:00A6:AL_Password4th
 WORK:00A7:AL_Password3rd
 WORK:00A8:AL_Password2nd
-WORK:00A9:AL_Password1st
+WORK:00A9:AL_Password1st:also BreakTime_WheelCursor
+WORK:00B2:AL_BreakTime_Timer
+WORK:00B4:AL_BreakTime_NextMusic
 WORK:0170:ram_cm_stack_index
 WORK:0327:AL_MultiStack_index
 WORK:0328:AL_NumberOfIdleLoops:always $08, stored to $0329

@@ -2,7 +2,7 @@
 ; Labels and notes, mostly assumptions
 ; by InsaneFirebat
 
-
+org $808000 : Boot:
 org $80FFB0 : GameHeader:
 org $8088E7 : COP_Handler: ; COP and BRK are used
 org $8088E5 : BRK_Handler:
