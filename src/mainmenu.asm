@@ -348,8 +348,9 @@ levelselect_menu_sync:
 
     ; allow/disallow checkpoints
     LDA !cm_levelselect_checkpoint : BEQ +
-    LDA !cm_levelselect_level_index : CMP #$000A : BEQ .checkpoint
-    CMP #$0010 : BEQ .checkpoint
+    LDA !cm_levelselect_level_index : CMP #$0006 : BEQ .checkpoint ; Fire 1
+    CMP #$000A : BEQ .checkpoint ; Genie 3
+    CMP #$0010 : BEQ .checkpoint ; Palace 3
 +   LDA #$0000 : STA !cm_levelselect_checkpoint
     RTL
 
@@ -367,6 +368,7 @@ LevelSelectListMenu:
     dw levelselectlist_Cave_01
     dw levelselectlist_Cave_02
     dw levelselectlist_Fire_01
+    dw levelselectlist_Fire_01_cp
     dw levelselectlist_Fire_02
     dw levelselectlist_Genie_01
     dw levelselectlist_Genie_02
@@ -403,7 +405,16 @@ levelselectlist_Cave_02:
     %cm_jsl("Cave - 2", #levelselect_list_load, #$0102)
 
 levelselectlist_Fire_01:
-    %cm_jsl("Fire - 1", #levelselect_list_load, #$0201)
+    %cm_jsl("Fire - 1", #.routine, #$0201)
+  .routine
+    LDA #$0000 : STA !cm_levelselect_checkpoint
+    JML levelselect_list_load
+
+levelselectlist_Fire_01_cp:
+    %cm_jsl("Fire - 1 Checkpoint", #.routine, #$0201)
+  .routine
+    LDA #$0001 : STA !cm_levelselect_checkpoint
+    JML levelselect_list_load
 
 levelselectlist_Fire_02:
     %cm_jsl("Fire - 2", #levelselect_list_load, #$0202)
@@ -471,8 +482,9 @@ levelselect_list_load:
     LDA !cm_levelselect_level : DEC : ASL : TAY
     LDA ($40),Y : STA !cm_levelselect_level_index
 
-    LDA !cm_levelselect_level_index : CMP #$000A : BEQ +
-    LDA !cm_levelselect_level_index : CMP #$0010 : BEQ +
+    LDA !cm_levelselect_level_index : CMP #$0006 : BEQ + ; Fire 1
+    CMP #$000A : BEQ + ; Genie 3
+    CMP #$0010 : BEQ + ; Palace 3
     LDA #$0000 : STA !cm_levelselect_checkpoint
 
 +   JML levelselect_load_target_routine

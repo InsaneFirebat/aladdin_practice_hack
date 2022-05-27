@@ -1,0 +1,7 @@
+
+PURPLE = Room timer (seconds.frames) that resets when a new level finishes fading in. Red numbers indicate a new record.
+BLUE   = Previously printed room timer.
+YELLOW = Lag frames since last room timer reset.
+GREEN  = Can be configured to show information on the HUD, such as X/Y position, or input display.
+
+An extra row of GREEN can be transferred from the tilemap if the $80 bit is set at !ram_update_HUD. Unused as of v1.0.2
