@@ -167,6 +167,18 @@ endif
 !ram_cm_watch_bank = !WRAM_START+$FC
 !ram_cm_watch_common_address = !WRAM_START+$FE
 
+!DP_Temp = $38
+!DP_JSLTarget = $38 ; 0x4
+!DP_Toggle = $3C
+!DP_Increment = $3C
+!DP_Palette = $3E
+!DP_Minimum = $40
+!DP_MenuIndices = $40 ; 0x4
+!DP_MenuBank = $42
+!DP_Maximum = $42
+!DP_CurrentMenu = $44 ; 0x4
+!DP_Address = $48 ; 0x4
+
 
 ; ----
 ; SRAM

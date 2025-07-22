@@ -611,7 +611,7 @@ HUD_display_mode_choice:
     db #$FF
 
 HUD_custom_checkpoint:
-    %cm_numfield_word("Custom Checkpoint X Pos", !sram_custom_checkpoint, 500, 9999, 1, 10, #0)
+    %cm_numfield_word("Custom Checkpoint X", !sram_custom_checkpoint, 500, 9999, 1, 10, #0)
 
 HUD_ram_watch:
     %cm_submenu("Configure RAM Watch", #RAMWatchMenu)

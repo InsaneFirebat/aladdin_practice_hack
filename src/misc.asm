@@ -15,10 +15,10 @@ incsrc antipiracy.asm ; bypass SRAM checks
 
 ; Enable Level Select
 org $809F7A
-    db #$00
+    db $00
 
 org $809FC7
-    db #$00
+    db $00
 
 
 ; Allow soft reset during demo playback (credits)
